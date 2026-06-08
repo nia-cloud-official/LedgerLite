@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* ================= DESIGN SYSTEM ================= */
+:root {
+    --bg: #0b1220;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #3b82f6;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --success: #22c55e;
+}
+
+/* PAGE */
+body {
+    background:
+        radial-gradient(circle at 20% 10%, rgba(59,130,246,0.10), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(34,197,94,0.08), transparent 40%),
+        var(--bg);
+    color: var(--text);
+}
+
+/* HEADER */
+.page-header h2 {
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.page-header p {
+    color: var(--muted);
+}
+
+/* PRIMARY BUTTON */
+.btn-primary-action {
+    background: linear-gradient(135deg,#3b82f6,#1d4ed8);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-weight: 600;
+    color: white;
+    transition: 0.2s ease;
+    box-shadow: 0 10px 25px rgba(59,130,246,0.2);
+}
+
+.btn-primary-action:hover {
+    transform: translateY(-2px);
+}
+
+/* STATS */
+.inventory-stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    backdrop-filter: blur(14px);
+    padding: 16px;
+    transition: 0.2s ease;
+}
+
+.inventory-stat:hover {
+    background: var(--surface-hover);
+    transform: translateY(-3px);
+}
+
+/* PRODUCT CARD */
+.product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    transition: 0.2s ease;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    background: var(--surface-hover);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+}
+
+/* BADGES */
+.badge-low {
+    background: rgba(245,158,11,0.15);
+    color: var(--warning);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.badge-out {
+    background: rgba(239,68,68,0.15);
+    color: var(--danger);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.badge-ok {
+    background: rgba(34,197,94,0.15);
+    color: var(--success);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+/* INPUTS */
+.form-control {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: rgba(255,255,255,0.06);
+    color: white;
+}
+
+/* DELETE BUTTON */
+.btn-delete {
+    border: 1px solid rgba(239,68,68,0.4);
+    background: transparent;
+    color: #f87171;
+    border-radius: 10px;
+    padding: 8px;
+    width: 100%;
+}
+
+.btn-delete:hover {
+    background: rgba(239,68,68,0.12);
+}
+
+/* RESTOCK */
+.btn-restock {
+    background: rgba(245,158,11,0.15);
+    color: var(--warning);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 10px;
+}
+
+.highlight-product {
+    animation: pulseGlow 2s ease-in-out 2;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 rgba(59,130,246,0); }
+    50% { box-shadow: 0 0 25px rgba(59,130,246,0.4); }
+    100% { box-shadow: 0 0 0 rgba(59,130,246,0); }
+}
+
+small {
+    color: var(--muted);
+}
+
+</style>
+
+<!-- HEADER -->
+<div class="d-flex justify-content-between align-items-center mb-4 page-header">
+
+    <div>
+        <h2>Inventory Management</h2>
+        <p>Track stock levels, restock products, and manage inventory efficiently</p>
+    </div>
+
+    <a href="{% url 'add_product' %}" class="btn btn-primary-action">
+        + Add Product
+    </a>
+
+</div>
+
+<!-- STATS -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <div class="inventory-stat">
+            <small>Total Products</small>
+            <h3 class="mb-0">{{ products|length }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="inventory-stat">
+            <small>Low Stock Items</small>
+            <h3 class="mb-0 text-warning">
+                {{ products|dictsort:"stock"|length }}
+            </h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="inventory-stat">
+            <small>Status</small>
+            <h3 class="mb-0 text-success">Active</h3>
+        </div>
+    </div>
+
+</div>
+
+<!-- PRODUCTS -->
+<div class="row g-4">
+
+{% for product in products %}
+
+<div class="col-lg-4 col-md-6" id="product-{{ product.id }}">
+
+    <div class="product-card p-3 h-100">
+
+        <div class="d-flex justify-content-between align-items-start mb-2">
+
+            <div>
+                <h5 class="mb-1">{{ product.name }}</h5>
+                <small>#{{ product.id }}</small>
+            </div>
+
+            {% if product.stock == 0 %}
+                <span class="badge-out">Out</span>
+            {% elif product.stock < 10 %}
+                <span class="badge-low">Low</span>
+            {% else %}
+                <span class="badge-ok">OK</span>
+            {% endif %}
+
+        </div>
+
+        <hr style="border-color: rgba(255,255,255,0.06);">
+
+        <div class="mb-3">
+
+            <div class="d-flex justify-content-between">
+                <small>Price</small>
+                <strong>${{ product.price }}</strong>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <small>Stock</small>
+                <strong>{{ product.stock }}</strong>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <small>Total Value</small>
+                <strong>${{ product.price|floatformat:2 }}</strong>
+            </div>
+
+        </div>
+
+        <!-- RESTOCK -->
+        <form method="POST" action="{% url 'restock' %}">
+            {% csrf_token %}
+
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+            <div class="input-group mb-2">
+
+                <input type="number"
+                       name="quantity"
+                       class="form-control"
+                       placeholder="Qty">
+
+                <button class="btn btn-restock">
+                    Restock
+                </button>
+
+            </div>
+        </form>
+
+        <!-- DELETE -->
+        <form method="POST"
+              action="{% url 'delete_product' product.id %}"
+              onsubmit="return confirm('Delete this product?')">
+
+            {% csrf_token %}
+
+            <button class="btn btn-delete">
+                Delete Product
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+    <div class="text-center p-5">
+        <h4>No Products Yet</h4>
+        <p class="text-muted">Start by adding your first product</p>
+        <a href="{% url 'add_product' %}" class="btn btn-primary-action">
+            Add First Product
+        </a>
+    </div>
+</div>
+
+{% endfor %}
+
+</div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+
+    if (window.location.hash) {
+
+        const target = document.querySelector(window.location.hash);
+
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+            const card = target.querySelector(".product-card");
+
+            if (card) {
+                card.classList.add("highlight-product");
+
+                setTimeout(() => {
+                    card.classList.remove("highlight-product");
+                }, 5000);
+            }
+        }
+    }
+});
+</script>
+
+{% endblock %}

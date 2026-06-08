@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* ================= DESIGN SYSTEM ================= */
+:root {
+    --bg: #0b1220;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #3b82f6;
+    --green: #22c55e;
+    --red: #ef4444;
+}
+
+/* ================= PAGE ================= */
+body {
+    background:
+        radial-gradient(circle at 20% 10%, rgba(59,130,246,0.10), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(34,197,94,0.08), transparent 40%),
+        var(--bg);
+    color: var(--text);
+}
+
+/* ================= TOP ACTION BAR ================= */
+.top-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+/* ================= BUTTONS ================= */
+.saas-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: 0.2s ease;
+    text-decoration: none;
+    backdrop-filter: blur(12px);
+}
+
+.saas-btn:hover {
+    transform: translateY(-2px);
+    background: var(--surface-hover);
+}
+
+.saas-btn-warning { border-color: rgba(250,204,21,0.3); }
+.saas-btn-success { border-color: rgba(34,197,94,0.3); }
+.saas-btn-danger  { border-color: rgba(239,68,68,0.3); }
+
+/* ================= MAIN CARD ================= */
+.saas-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+    backdrop-filter: blur(16px);
+}
+
+/* ================= HEADER ================= */
+.invoice-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.text-muted {
+    color: var(--muted) !important;
+}
+
+/* ================= TABLE FIX (ABSOLUTE DARK OVERRIDE) ================= */
+.table-wrapper {
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+}
+
+/* 🔥 NUCLEAR RESET (THIS FIXES YOUR WHITE BOX) */
+.table,
+.table thead,
+.table tbody,
+.table tr,
+.table th,
+.table td {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* kill bootstrap striping */
+.table-striped > tbody > tr:nth-of-type(odd) {
+    --bs-table-accent-bg: transparent !important;
+}
+
+/* table base */
+.table {
+    margin: 0;
+    color: var(--text);
+}
+
+/* header */
+.table thead th {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    padding: 12px;
+}
+
+/* cells */
+.table td {
+    border-color: rgba(255,255,255,0.05) !important;
+    padding: 12px;
+    vertical-align: middle;
+}
+
+/* hover */
+.table tbody tr:hover {
+    background: rgba(59,130,246,0.06) !important;
+}
+
+/* ================= SUMMARY ================= */
+.summary {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    backdrop-filter: blur(12px);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--green);
+    margin-top: 10px;
+}
+
+/* ================= SHARE ================= */
+.share-box {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.share-input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.share-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+</style>
+
+<!-- ================= TOP ACTIONS ================= -->
+<div class="top-actions">
+
+    <div></div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{% url 'edit_invoice' invoice.id %}" class="saas-btn saas-btn-warning">✏ Edit</a>
+
+        <a href="{% url 'invoice_pdf' invoice.id %}" class="saas-btn saas-btn-success">⬇ PDF</a>
+
+        <a href="{% url 'delete_invoice' invoice.id %}" class="saas-btn saas-btn-danger">🗑 Delete</a>
+
+    </div>
+</div>
+
+<!-- ================= MAIN ================= -->
+<div class="saas-card">
+
+    <div>
+        <div class="invoice-title">
+            Invoice {{ invoice.invoice_number }}
+        </div>
+
+        <div class="text-muted">
+            Created: {{ invoice.date_created }}
+        </div>
+    </div>
+
+    <hr style="border-color: var(--border);">
+
+    <!-- CUSTOMER -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="text-muted">Customer</div>
+            <div>{{ invoice.customer_name }}</div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="text-muted">Phone</div>
+            <div>{{ invoice.customer_phone }}</div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in invoice.items.all %}
+                    <tr>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>${{ item.subtotal }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No items found
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary">
+
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>${{ invoice.subtotal_amount }}</span>
+        </div>
+
+        <div class="summary-row" style="color: var(--red);">
+            <span>Discount</span>
+            <span>- ${{ invoice.discount }}</span>
+        </div>
+
+        <hr style="border-color: var(--border);">
+
+        <div class="summary-total">
+            <span>Total</span>
+            <span>${{ invoice.total }}</span>
+        </div>
+
+    </div>
+
+    <!-- SHARE -->
+    <div class="share-box">
+
+        <h6 class="mb-2">Public Share Link</h6>
+
+        {% if invoice.share_token %}
+
+        <div class="d-flex gap-2">
+
+            <a class="saas-btn saas-btn-success"
+               href="{% url 'public_invoice' invoice.share_token %}"
+               target="_blank">
+                Open
+            </a>
+
+            <input class="share-input"
+                   readonly
+                   value="{{ request.scheme }}://{{ request.get_host }}{% url 'public_invoice' invoice.share_token %}}">
+
+        </div>
+
+        {% else %}
+            <span class="text-muted">No share link available</span>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

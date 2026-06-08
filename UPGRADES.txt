@@ -1,0 +1,34 @@
+📊 1. Analytics page (next best step)
+Monthly revenue
+Invoice count trend
+Average invoice value
+
+
+📧 2. Email invoice sending
+Send PDF via email automatically
+
+
+💳 3. Payments (big upgrade)
+Stripe (global)
+Paynow (Zimbabwe-friendly)
+
+
+🧾 4. Branding upgrade (makes it feel SaaS)
+Logo on invoices
+Company name per user
+Custom invoice footer
+
+
+🌐 5. Public invoice page polish
+Clean share page (no Django look)
+Mobile friendly
+
+6. Invoice search + filters
+
+7. client management system
+
+8. invoice numbering auto-generator
+
+9. “make LedgerLite production ready UI + auth system
+
+10. Toast notifications (account created, invoice saved)

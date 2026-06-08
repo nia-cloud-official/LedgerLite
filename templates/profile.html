@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+:root {
+    --bg: #0b1220;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.05);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #3b82f6;
+    --danger: #ef4444;
+}
+
+/* PAGE */
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* HEADER BAR */
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-weight: 800;
+    margin: 0;
+}
+
+/* GRID */
+.settings-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+/* CARD */
+.settings-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    backdrop-filter: blur(14px);
+    transition: 0.2s ease;
+}
+
+.settings-card:hover {
+    transform: translateY(-3px);
+    background: var(--surface-hover);
+}
+
+/* FULL WIDTH */
+.full {
+    grid-column: 1 / -1;
+}
+
+/* LABEL */
+label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+/* INPUTS */
+.form-control {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+}
+
+.form-control::placeholder {
+    color: rgba(229,231,235,0.35);
+}
+
+/* SECTION TITLE */
+.section-title {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+
+/* BUTTONS */
+.btn-success {
+    background: linear-gradient(135deg,#22c55e,#16a34a);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(34,197,94,0.25);
+}
+
+/* EXIT BUTTON */
+.btn-danger-outline {
+    background: transparent;
+    border: 1px solid rgba(239,68,68,0.4);
+    color: #f87171;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.btn-danger-outline:hover {
+    background: rgba(239,68,68,0.12);
+    transform: translateY(-2px);
+}
+
+/* FOOT ACTION BAR */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+}
+
+</style>
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="settings-header">
+        <h2>Company Settings</h2>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="settings-wrapper">
+
+            <!-- BUSINESS -->
+            <div class="settings-card">
+                <div class="section-title">Business Identity</div>
+
+                <label>Company Name</label>
+                <input class="form-control mb-3"
+                       name="company_name"
+                       value="{{ profile.company_name }}">
+
+                <label>Logo</label>
+                <input class="form-control"
+                       type="file"
+                       name="company_logo">
+            </div>
+
+            <!-- CONTACT -->
+            <div class="settings-card">
+                <div class="section-title">Contact Info</div>
+
+                <label>Email</label>
+                <input class="form-control mb-3"
+                       name="company_email"
+                       value="{{ profile.company_email }}">
+
+                <label>Phone</label>
+                <input class="form-control"
+                       name="company_phone"
+                       value="{{ profile.company_phone }}">
+            </div>
+
+            <!-- SYSTEM SETTINGS -->
+            <div class="settings-card full">
+                <div class="section-title">Invoice & System Settings</div>
+
+                <div class="settings-wrapper">
+
+                    <div>
+                        <label>Invoice Prefix</label>
+                        <input class="form-control"
+                               name="invoice_prefix"
+                               value="{{ profile.invoice_prefix|default:'INV-' }}">
+                    </div>
+
+                    <div>
+                        <label>Currency</label>
+                        <select class="form-control" name="currency">
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="ZWL">ZWL</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Low Stock Alert</label>
+                        <input class="form-control"
+                               type="number"
+                               name="low_stock"
+                               value="{{ profile.low_stock|default:5 }}">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="settings-card full">
+                <div class="section-title">Business Address</div>
+
+                <label>Address</label>
+                <textarea class="form-control"
+                          name="company_address"
+                          rows="3">{{ profile.company_address }}</textarea>
+            </div>
+
+        </div>
+
+        <!-- ACTION BAR (SAVE + EXIT FIXED HERE) -->
+        <div class="action-bar">
+
+            <a href="{% url 'dashboard' %}" class="btn btn-danger-outline">
+                Exit
+            </a>
+
+            <button class="btn btn-success">
+                Save Settings
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* ================= DESIGN SYSTEM ================= */
+:root {
+    --bg: #0b1220;
+    --card: rgba(255,255,255,0.03);
+    --card-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #3b82f6;
+}
+
+/* ================= PAGE ================= */
+body {
+    background:
+        radial-gradient(circle at 20% 10%, rgba(59,130,246,0.10), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(34,197,94,0.08), transparent 40%),
+        var(--bg);
+    color: var(--text);
+}
+
+/* ================= HEADER ================= */
+.dashboard-header h2 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.dashboard-header small {
+    color: var(--muted);
+}
+
+/* ================= BUTTON ================= */
+.btn-primary-action {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 10px 25px rgba(59,130,246,0.25);
+    transition: 0.25s ease;
+}
+
+.btn-primary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(59,130,246,0.35);
+}
+
+/* ================= KPI ================= */
+.kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    transition: 0.25s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    background: var(--card-hover);
+}
+
+.kpi-title {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+/* ================= ACTIONS ================= */
+.action-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    text-align: center;
+    color: var(--text);
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    background: var(--card-hover);
+}
+
+/* ICON STYLE */
+.action-card i {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+/* ================= TABLE CARD ================= */
+.table-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* ================= TABLE RESET ================= */
+.table {
+    margin: 0;
+    color: var(--text);
+    background: transparent !important;
+    --bs-table-bg: transparent !important;
+    --bs-table-accent-bg: transparent !important;
+}
+
+/* HEADER */
+.table thead {
+    background: rgba(255,255,255,0.04) !important;
+}
+
+.table thead th {
+    border-bottom: 1px solid var(--border) !important;
+    color: #cbd5e1;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* ROWS */
+.table tbody tr {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* HOVER FIX */
+.table tbody tr:hover {
+    background: rgba(59,130,246,0.06) !important;
+}
+
+/* CELLS */
+.table td {
+    border: none !important;
+    padding: 14px 16px;
+    color: var(--text);
+}
+
+/* ================= FILTER FIX (IMPORTANT) ================= */
+.form-control,
+.form-select {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    border-radius: 12px;
+}
+
+/* dropdown options fix */
+.form-select option {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+/* focus */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: rgba(15, 23, 42, 0.8) !important;
+    color: white !important;
+}
+
+/* ================= TEXT ================= */
+small, .text-muted {
+    color: var(--muted) !important;
+}
+
+</style>
+
+<!-- ================= HEADER ================= -->
+<div class="d-flex justify-content-between align-items-center mb-4 dashboard-header">
+
+    <div>
+        <h2 class="mb-0">Dashboard</h2>
+        <small>Overview of your business activity</small>
+    </div>
+
+    <a href="{% url 'create_invoice' %}" class="btn btn-primary-action">
+        + Create Invoice
+    </a>
+
+</div>
+
+<!-- ================= KPI ================= -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="kpi-card p-3">
+            <div class="kpi-title">Total Invoices</div>
+            <div class="kpi-value">{{ invoice_count }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="kpi-card p-3">
+            <div class="kpi-title">Revenue</div>
+            <div class="kpi-value text-success">${{ total_revenue }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="kpi-card p-3">
+            <div class="kpi-title">Discounts</div>
+            <div class="kpi-value text-danger">${{ total_discount }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="kpi-card p-3 d-flex flex-column justify-content-center">
+            <div class="kpi-title">Quick Action</div>
+            <a href="{% url 'create_invoice' %}" class="btn btn-sm btn-primary-action mt-2">
+                <i class="bi bi-plus-circle"></i> New Invoice
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= QUICK ACTIONS (FIXED ICONS ONLY) ================= -->
+<div class="mb-4">
+    <h5 class="mb-3">Quick Actions</h5>
+
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            <a href="{% url 'create_invoice' %}" class="action-card d-block">
+                <i class="bi bi-receipt"></i>
+                New Invoice
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'add_product' %}" class="action-card d-block">
+                <i class="bi bi-plus-square"></i>
+                Add Product
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'products' %}" class="action-card d-block">
+                <i class="bi bi-box"></i>
+                Inventory
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="{% url 'analytics' %}" class="action-card d-block">
+                <i class="bi bi-graph-up"></i>
+                Analytics
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= FILTERS ================= -->
+<div class="table-card p-3 mb-3">
+
+    <div class="row g-2">
+
+        <div class="col-md-5">
+            <input type="text" id="searchInput" class="form-control"
+                   placeholder="Search invoice or customer...">
+        </div>
+
+        <div class="col-md-3">
+            <select id="discountFilter" class="form-select">
+                <option value="all">All</option>
+                <option value="discounted">Discounted</option>
+                <option value="none">No Discount</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <input type="date" id="dateFilter" class="form-control">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= TABLE ================= -->
+<div class="table-card">
+
+    <div class="table-responsive">
+        <table class="table align-middle">
+
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for invoice in invoices %}
+                <tr class="invoice-row"
+                    data-discounted="{% if invoice.discount > 0 %}true{% else %}false{% endif %}"
+                    data-date="{{ invoice.date_created|date:'Y-m-d' }}">
+
+                    <td><strong>{{ invoice.invoice_number }}</strong></td>
+                    <td>{{ invoice.customer_name }}</td>
+                    <td>{{ invoice.date_created|date:"d M Y" }}</td>
+
+                    <td>
+                        <strong class="text-success">
+                            ${{ invoice.total|floatformat:2 }}
+                        </strong>
+
+                        {% if invoice.discount > 0 %}
+                        <div class="small text-danger">
+                            Discount: ${{ invoice.discount }}
+                        </div>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'invoice_detail' invoice.id %}"
+                           class="btn btn-sm btn-primary-action">
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        No invoices yet.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

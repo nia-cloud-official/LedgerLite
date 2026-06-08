@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* ================= DESIGN SYSTEM ================= */
+:root {
+    --bg: #0b1220;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #3b82f6;
+    --green: #22c55e;
+}
+
+/* ================= PAGE ================= */
+body {
+    background:
+        radial-gradient(circle at 20% 10%, rgba(59,130,246,0.10), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(34,197,94,0.08), transparent 40%),
+        var(--bg);
+    color: var(--text);
+}
+
+/* ================= MAIN CARD ================= */
+.saas-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+    backdrop-filter: blur(16px);
+}
+
+/* ================= INPUT OVERRIDES ================= */
+.form-control,
+.form-select {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+    background: rgba(255,255,255,0.06) !important;
+    color: var(--text) !important;
+}
+
+/* labels */
+.form-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* ================= ITEM CARD FIX (REMOVES WHITE BOX) ================= */
+.item-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: 0.2s ease;
+}
+
+.item-card:hover {
+    background: var(--surface-hover) !important;
+    transform: translateY(-2px);
+}
+
+/* ================= BUTTONS ================= */
+.saas-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.2s ease;
+    text-decoration: none;
+}
+
+.saas-btn:hover {
+    transform: translateY(-2px);
+    background: var(--surface-hover);
+}
+
+.saas-btn-success {
+    border-color: rgba(34,197,94,0.3);
+}
+
+.saas-btn-secondary {
+    border-color: rgba(156,163,175,0.3);
+}
+
+</style>
+
+<!-- ================= MAIN ================= -->
+<div class="saas-card">
+
+    <h2 class="mb-3 fw-bold">Edit Invoice</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- CUSTOMER -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-6">
+                <label class="form-label">Customer Name</label>
+                <input type="text" class="form-control"
+                       name="customer_name"
+                       value="{{ invoice.customer_name }}">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control"
+                       name="customer_phone"
+                       value="{{ invoice.customer_phone }}">
+            </div>
+
+        </div>
+
+        <hr style="border-color: var(--border);">
+
+        <!-- ITEMS -->
+        <h5 class="mb-3">Items</h5>
+
+        {% for item in invoice.items.all %}
+
+        <div class="item-card">
+
+            <input type="hidden" name="item_id[]" value="{{ item.id }}">
+
+            <div class="row g-3">
+
+                <div class="col-md-5">
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-control"
+                           name="description[]"
+                           value="{{ item.description }}">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">Qty</label>
+                    <input type="number" class="form-control"
+                           name="quantity[]"
+                           value="{{ item.quantity }}">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Price</label>
+                    <input type="number" step="0.01"
+                           class="form-control"
+                           name="price[]"
+                           value="{{ item.price }}">
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <small class="text-muted">
+                        Sub: ${{ item.subtotal }}
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <!-- DISCOUNT -->
+        <div class="mt-4">
+
+            <label class="form-label">Discount</label>
+
+            <div class="input-group">
+
+                <span class="input-group-text"
+                      style="background: rgba(255,255,255,0.04);
+                             border: 1px solid var(--border);
+                             color: var(--text);">
+                    $
+                </span>
+
+                <input type="number"
+                       step="0.01"
+                       min="0"
+                       name="discount"
+                       class="form-control"
+                       value="{{ invoice.discount }}">
+
+            </div>
+
+            <small class="text-muted">
+                This amount will be subtracted from total.
+            </small>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="d-flex justify-content-between mt-4">
+
+            <a href="{% url 'invoice_detail' invoice.id %}"
+               class="saas-btn saas-btn-secondary">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="saas-btn saas-btn-success">
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
