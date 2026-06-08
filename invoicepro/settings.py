@@ -3,11 +3,15 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY (dev only)
+# SECURITY (dev only — change on Render later)
 SECRET_KEY = 'django-insecure-change-me'
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.onrender.com'
+]
 
 
 # APPLICATIONS
@@ -27,6 +31,10 @@ INSTALLED_APPS = [
 # MIDDLEWARE
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # ✅ WHITE NOISE (FIX FOR STATIC FILES IN PRODUCTION)
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -40,12 +48,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'invoicepro.urls'
 
 
-# TEMPLATES (THIS FIXES YOUR ERROR)
+# TEMPLATES
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
 
-        # IMPORTANT FIX
         'DIRS': [BASE_DIR / 'templates'],
 
         'APP_DIRS': True,
@@ -87,18 +94,24 @@ USE_I18N = True
 USE_TZ = True
 
 
-# STATIC FILES
-STATIC_URL = 'static/'
+# ================= STATIC FILES (FIXED) =================
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# WhiteNoise optimized static handling
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# LOGIN SETTINGS (IMPORTANT FOR YOUR SaaS FLOW)
+# ================= MEDIA =================
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ================= LOGIN FLOW =================
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 
-# DEFAULT AUTO FIELD
+# ================= DEFAULT AUTO FIELD =================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
