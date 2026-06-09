@@ -71,6 +71,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # ✅ ADDITION: notifications context processor
+                'invoices.context_processors.notifications_context',
             ],
         },
     },
@@ -102,17 +105,15 @@ USE_I18N = True
 USE_TZ = True
 
 
-# ================= STATIC FILES (FIXED PROPERLY) =================
+# ================= STATIC FILES =================
 STATIC_URL = '/static/'
 
-# REQUIRED for local dev (THIS WAS YOUR MAIN ISSUE)
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Use SIMPLE storage for dev stability (avoids broken loading issues)
 STATICFILES_STORAGE = 'whitenoise.storage.WhiteNoiseStaticFilesStorage'
 
 
