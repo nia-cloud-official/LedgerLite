@@ -42,12 +42,9 @@ body{
 .navbar{
     background:rgba(17,24,39,.80);
     backdrop-filter:blur(18px);
-
     border-bottom:1px solid rgba(255,255,255,.06);
-
     position:sticky;
     top:0;
-
     z-index:9999;
 }
 
@@ -65,14 +62,10 @@ body{
     color:#fff !important;
 }
 
-/* Mobile hamburger */
-
-.navbar-toggler{
-    border:1px solid rgba(255,255,255,.15);
-}
-
-.navbar-toggler:focus{
-    box-shadow:none;
+/* FIX: clickable feel */
+.nav-link,
+button{
+    cursor:pointer;
 }
 
 /* ================= USER AVATAR ================= */
@@ -80,31 +73,18 @@ body{
 .user-avatar{
     width:42px;
     height:42px;
-
     border:none;
     border-radius:50%;
-
     overflow:hidden;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
-    background:linear-gradient(
-        135deg,
-        #22c55e,
-        #16a34a
-    );
-
+    background:linear-gradient(135deg,#22c55e,#16a34a);
     color:white;
     font-weight:700;
-
     padding:0;
 }
 
-/* IMPORTANT:
-   preserves uploaded logo correctly
-*/
 .user-avatar img{
     width:100%;
     height:100%;
@@ -116,160 +96,69 @@ body{
     display:none !important;
 }
 
-/* ================= DROPDOWN ================= */
-
-.dropdown{
-    position:relative;
-}
+/* ================= NOTIFICATION DROPDOWN FIX ================= */
 
 .dropdown-menu{
-    background:rgba(15,23,42,.98) !important;
-
-    border:1px solid var(--border) !important;
-    border-radius:14px;
-
-    padding:8px;
-
-    backdrop-filter:blur(20px);
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.60);
-
-    z-index:10001 !important;
+    background:rgba(10,15,25,.98) !important; /* darker for contrast */
+    border:1px solid rgba(255,255,255,.10) !important;
+    color:#e5e7eb !important;
 }
 
-.dropdown-item{
-    color:var(--text) !important;
-
-    border-radius:10px;
-
-    padding:10px 12px;
-
-    transition:.2s;
+/* ALL text inside dropdown */
+.dropdown-menu *{
+    color:#e5e7eb !important;
 }
 
+/* muted message text */
+.dropdown-menu .text-muted,
+.dropdown-menu small{
+    color:#9ca3af !important;
+}
+
+/* notification card */
+.dropdown-menu .p-2.mb-2{
+    background:rgba(255,255,255,.06) !important;
+}
+
+/* title stronger */
+.dropdown-menu .p-2.mb-2 div:first-child{
+    color:#ffffff !important;
+}
+
+/* message softer but visible */
+.dropdown-menu .p-2.mb-2 div:nth-child(2){
+    color:#cbd5e1 !important;
+}
+
+/* buttons inside dropdown */
+.dropdown-menu .btn{
+    color:#fff !important;
+}
+
+/* hover fix */
 .dropdown-item:hover{
-    background:rgba(59,130,246,.15) !important;
+    background:rgba(59,130,246,.25) !important;
+    color:#fff !important;
 }
 
-.dropdown-divider{
-    border-color:rgba(255,255,255,.08);
+/* ================= BUTTON FIX (IMPORTANT) ================= */
+
+.btn{
+    transition:.2s ease;
 }
 
-/* ================= FORMS ================= */
-
-.form-control,
-.form-select{
-background:#1e293b !important;
-border:1px solid rgba(255,255,255,.15) !important;
-color:#f8fafc !important;
-border-radius:12px;
-
-```
-min-height:48px;
-transition:.2s ease;
-```
-
+.btn:hover{
+    transform:translateY(-1px);
 }
 
-.form-control::placeholder{
-color:#94a3b8 !important;
-opacity:1;
+.btn:active{
+    transform:scale(.98);
 }
 
-.form-control:focus,
-.form-select:focus{
-background:#243247 !important;
-border-color:var(--primary) !important;
-color:#ffffff !important;
-
-```
-box-shadow:
-    0 0 0 3px rgba(59,130,246,.18) !important;
-```
-
+/* Notification buttons */
+.dropdown-menu .btn{
+    cursor:pointer;
 }
-
-.form-select option{
-background:#1e293b;
-color:#ffffff;
-}
-
-.form-control:disabled,
-.form-select:disabled{
-background:#111827 !important;
-color:#9ca3af !important;
-}
-
-/* Labels */
-
-.form-label{
-color:#e2e8f0 !important;
-font-weight:500;
-}
-
-/* Textareas */
-
-textarea.form-control{
-min-height:120px;
-}
-
-/* Bootstrap Cards */
-
-.card{
-background:#111827;
-border:1px solid rgba(255,255,255,.08);
-}
-
-/* Tables */
-
-.table{
-color:#e5e7eb;
-}
-
-.table thead th{
-color:#f8fafc;
-border-color:rgba(255,255,255,.08);
-}
-
-.table td,
-.table th{
-border-color:rgba(255,255,255,.06);
-}
-
-/* Alerts */
-
-.alert{
-border:none;
-border-radius:12px;
-}
-
-/* Modals */
-
-.modal-content{
-background:#111827;
-color:#f8fafc;
-border:1px solid rgba(255,255,255,.08);
-}
-
-/* Bootstrap muted text fix */
-
-.text-muted{
-color:#94a3b8 !important;
-}
-
-/* Chrome Autofill Fix */
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-select:-webkit-autofill{
--webkit-text-fill-color:#ffffff !important;
--webkit-box-shadow:0 0 0 1000px #1e293b inset !important;
-transition:background-color 9999s ease-in-out 0s;
-}
-
 
 /* ================= CONTENT ================= */
 
@@ -282,139 +171,15 @@ transition:background-color 9999s ease-in-out 0s;
     z-index:1;
 }
 
-.card,
-.table-card,
-.saas-card{
-    position:relative;
-    z-index:1;
-}
-
 /* ================= FOOTER ================= */
 
 footer{
     margin-top:auto;
-
     padding:24px;
-
     text-align:center;
-
     color:var(--muted);
-
     background:rgba(15,23,42,.65);
-
-    border-top:
-        1px solid rgba(255,255,255,.06);
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width: 991px){
-
-    .navbar-collapse{
-        padding-top:15px;
-    }
-
-    .navbar-nav{
-        gap:6px;
-    }
-
-    .nav-link{
-        padding:.7rem 0;
-    }
-
-    .user-avatar{
-        width:40px;
-        height:40px;
-    }
-
-    .dropdown-menu{
-        min-width:220px;
-    }
-
-    .container{
-        padding-left:16px;
-        padding-right:16px;
-    }
-}
-
-@media (max-width: 576px){
-
-    footer{
-        font-size:.9rem;
-    }
-
-    .dropdown-menu{
-        width:220px;
-    }
-}/* ================= TEXT VISIBILITY FIX ================= */
-
-/* Input text */
-.form-control,
-.form-select,
-textarea{
-color:#f8fafc !important;
-}
-
-/* Placeholder text */
-.form-control::placeholder,
-textarea::placeholder{
-color:#cbd5e1 !important;
-opacity:1 !important;
-}
-
-/* Selects */
-.form-select{
-color:#f8fafc !important;
-}
-
-/* Labels */
-label,
-.form-label{
-color:#f8fafc !important;
-}
-
-/* Small helper text */
-small,
-.form-text{
-color:#cbd5e1 !important;
-}
-
-/* Paragraphs */
-p{
-color:#e2e8f0;
-}
-
-/* Bootstrap muted text */
-.text-muted{
-color:#cbd5e1 !important;
-}
-
-/* Table text */
-.table{
-color:#f8fafc;
-}
-
-/* Input focus */
-.form-control:focus,
-.form-select:focus,
-textarea:focus{
-color:#ffffff !important;
-}
-
-/* Chrome autofill */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus{
--webkit-text-fill-color:#ffffff !important;
--webkit-box-shadow:0 0 0 1000px #1e293b inset !important;
-}
-.navbar .btn i{
-    transition:.2s;
-}
-
-.navbar .btn:hover i{
-    transform:scale(1.15);
-    color:#60a5fa;
+    border-top:1px solid rgba(255,255,255,.06);
 }
 
 </style>
@@ -431,16 +196,6 @@ input:-webkit-autofill:focus{
             LedgerLite
         </a>
 
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
         <div class="collapse navbar-collapse" id="mainNavbar">
 
             <div class="ms-auto d-flex align-items-center gap-3 flex-wrap">
@@ -456,101 +211,90 @@ input:-webkit-autofill:focus{
                     <i class="bi bi-plus-circle me-1"></i>
                     Invoice
                 </a>
-                <!-- ================= NOTIFICATIONS BELL ================= -->
-<div class="dropdown">
 
-    <!-- BELL -->
-    <button class="btn position-relative text-light"
-            data-bs-toggle="dropdown"
-            style="background:transparent;border:none;">
+                <!-- NOTIFICATIONS -->
+                <div class="dropdown">
 
-        <i class="bi bi-bell" style="font-size:1.35rem;"></i>
+                    <button class="btn position-relative text-light"
+                            data-bs-toggle="dropdown"
+                            style="background:transparent;border:none;">
 
-        {% if unread_notifications_count > 0 %}
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {{ unread_notifications_count }}
-        </span>
-        {% endif %}
+                        <i class="bi bi-bell" style="font-size:1.35rem;"></i>
 
-    </button>
+                        {% if unread_notifications_count %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ unread_notifications_count }}
+                        </span>
+                        {% endif %}
 
-    <!-- DROPDOWN -->
-    <div class="dropdown-menu dropdown-menu-end p-2"
-         style="width:340px; border-radius:14px;">
+                    </button>
 
-        <div class="d-flex justify-content-between align-items-center px-2 py-1">
+                    <div class="dropdown-menu dropdown-menu-end p-2"
+                         style="width:340px;border-radius:14px;">
 
-            <strong>Notifications</strong>
+                        <div class="d-flex justify-content-between align-items-center px-2 py-1">
+                            <strong>Notifications</strong>
 
-            <button class="btn btn-sm btn-outline-danger"
-                    onclick="clearAll()">
-                Clear All
-            </button>
+                            <button class="btn btn-sm btn-outline-danger"
+                                    onclick="clearAll()">
+                                Clear All
+                            </button>
+                        </div>
 
-        </div>
+                        <hr>
 
-        <hr>
+                        {% for n in notifications|slice:":7" %}
 
-        {% for n in notifications|slice:":7" %}
+                        <div class="p-2 mb-2 rounded"
+                             style="background:rgba(255,255,255,.04);">
 
-        <div class="p-2 mb-2 rounded"
-             style="background:rgba(255,255,255,.04);">
+                            <div>
+                                <div style="font-weight:600;">{{ n.title }}</div>
+                                <div style="font-size:.85rem;color:#9ca3af;">
+                                    {{ n.message|truncatechars:60 }}
+                                </div>
+                            </div>
 
-            <div class="d-flex justify-content-between">
+                            <div class="mt-2 d-flex gap-2">
 
-                <div>
-                    <div style="font-weight:600;">{{ n.title }}</div>
-                    <div style="font-size:.85rem;color:#9ca3af;">
-                        {{ n.message|truncatechars:60 }}
+                                {% if not n.read %}
+                                <button class="btn btn-sm btn-success"
+                                        onclick="resolve({{ n.id }})">
+                                    Resolve
+                                </button>
+
+                                <button class="btn btn-sm btn-primary"
+                                        onclick="markOk({{ n.id }})">
+                                    Okay
+                                </button>
+                                {% endif %}
+
+                                <button class="btn btn-sm btn-outline-danger"
+                                        onclick="clearOne({{ n.id }})">
+                                    Clear
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        {% empty %}
+                        <div class="text-center text-muted py-3">
+                            No notifications
+                        </div>
+                        {% endfor %}
+
                     </div>
                 </div>
 
-            </div>
-
-            <!-- ACTIONS -->
-            <div class="mt-2 d-flex gap-2">
-
-                {% if not n.read %}
-                <button class="btn btn-sm btn-success"
-                        onclick="resolve({{ n.id }})">
-                    Resolve
-                </button>
-
-                <button class="btn btn-sm btn-primary"
-                        onclick="markOk({{ n.id }})">
-                    Okay
-                </button>
-                {% endif %}
-
-                <button class="btn btn-sm btn-outline-danger"
-                        onclick="clearOne({{ n.id }})">
-                    Clear
-                </button>
-
-            </div>
-
-        </div>
-
-        {% empty %}
-
-        <div class="text-center text-muted py-3">
-            No notifications
-        </div>
-
-        {% endfor %}
-
-    </div>
-</div>
-
+                <!-- USER -->
                 <div class="dropdown">
 
-                    <button
-                        class="user-avatar dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown">
+                    <button class="user-avatar dropdown-toggle"
+                            data-bs-toggle="dropdown">
 
                         {% if request.user.companyprofile and request.user.companyprofile.company_logo %}
-                            <img src="{{ request.user.companyprofile.company_logo.url }}" alt="Logo">
+                            <img src="{{ request.user.companyprofile.company_logo.url }}">
                         {% else %}
                             {{ request.user.username|first|upper }}
                         {% endif %}
@@ -559,37 +303,13 @@ input:-webkit-autofill:focus{
 
                     <ul class="dropdown-menu dropdown-menu-end">
 
-                        <li>
-                            <a class="dropdown-item" href="{% url 'profile' %}">
-                                <i class="bi bi-person me-2"></i>
-                                Profile
-                            </a>
-                        </li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'products' %}">Inventory</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_product' %}">Add Product</a></li>
 
-                        <li>
-                            <a class="dropdown-item" href="{% url 'products' %}">
-                                <i class="bi bi-box me-2"></i>
-                                Inventory
-                            </a>
-                        </li>
+                        <li><hr class="dropdown-divider"></li>
 
-                        <li>
-                            <a class="dropdown-item" href="{% url 'add_product' %}">
-                                <i class="bi bi-plus-circle me-2"></i>
-                                Add Product
-                            </a>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item text-danger" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right me-2"></i>
-                                Logout
-                            </a>
-                        </li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
 
                     </ul>
 
@@ -615,36 +335,45 @@ input:-webkit-autofill:focus{
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
+
+function getCSRF(){
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+}
 
 function resolve(id){
     fetch(`/notifications/${id}/resolve/`, {
-        method: "POST",
-        headers: {"X-CSRFToken": getCSRF()}
-    }).then(() => location.reload());
+        method:"POST",
+        headers:{"X-CSRFToken":getCSRF()}
+    }).then(()=>location.reload());
 }
 
 function markOk(id){
     fetch(`/notifications/${id}/ok/`, {
-        method: "POST",
-        headers: {"X-CSRFToken": getCSRF()}
-    }).then(() => location.reload());
+        method:"POST",
+        headers:{"X-CSRFToken":getCSRF()}
+    }).then(()=>location.reload());
 }
 
 function clearOne(id){
     fetch(`/notifications/${id}/clear/`, {
-        method: "POST",
-        headers: {"X-CSRFToken": getCSRF()}
-    }).then(() => location.reload());
+        method:"POST",
+        headers:{"X-CSRFToken":getCSRF()}
+    }).then(()=>location.reload());
 }
 
 function clearAll(){
     fetch(`/notifications/clear-all/`, {
-        method: "POST",
-        headers: {"X-CSRFToken": getCSRF()}
-    }).then(() => location.reload());
+        method:"POST",
+        headers:{"X-CSRFToken":getCSRF()}
+    }).then(()=>location.reload());
 }
 
 </script>
+
 </body>
 </html>

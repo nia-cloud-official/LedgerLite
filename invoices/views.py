@@ -687,31 +687,23 @@ def notification_ok(request, notification_id):
 @require_POST
 def notification_resolve(request, notification_id):
     try:
-        print("🔥 VIEW HIT")
-
-        n = Notification.objects.get(id=notification_id, user=request.user)
-
-        print("🔥 NOTIFICATION:", n)
+        n = get_object_or_404(Notification, id=notification_id, user=request.user)
 
         n.read = True
         n.resolved = True
         n.save()
 
-        url = reverse("products")
+        redirect_url = reverse("products")
 
         if n.product:
-            url += f"#product-{n.product.id}"
-
-        print("🔥 URL:", url)
+            redirect_url = f"{redirect_url}#product-{n.product.id}"
 
         return JsonResponse({
             "success": True,
-            "redirect_url": url
+            "redirect_url": redirect_url
         })
 
     except Exception as e:
-        print("❌ ERROR:", e)
-
         return JsonResponse({
             "success": False,
             "error": str(e)
