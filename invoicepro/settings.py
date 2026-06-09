@@ -14,13 +14,6 @@ ALLOWED_HOSTS = [
 ]
 
 
-# ================= SESSION SETTINGS =================
-SESSION_COOKIE_AGE = 1209600  # 2 weeks
-SESSION_SAVE_EVERY_REQUEST = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_ENGINE = "django.contrib.sessions.backends.db"
-
-
 # ================= APPLICATIONS =================
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,8 +31,6 @@ INSTALLED_APPS = [
 # ================= MIDDLEWARE =================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-
-    # WhiteNoise (safe for production static handling)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -59,12 +50,8 @@ ROOT_URLCONF = 'invoicepro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        # global templates folder
         'DIRS': [BASE_DIR / 'templates'],
-
         'APP_DIRS': True,
-
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -72,7 +59,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                # ✅ ADDITION: notifications context processor
+                # custom notifications context
                 'invoices.context_processors.notifications_context',
             ],
         },
@@ -120,6 +107,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.WhiteNoiseStaticFilesStorage'
 # ================= MEDIA FILES =================
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ================= SESSION SETTINGS =================
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 
 # ================= LOGIN FLOW =================
