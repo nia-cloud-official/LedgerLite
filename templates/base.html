@@ -181,7 +181,52 @@ footer{
     background:rgba(15,23,42,.65);
     border-top:1px solid rgba(255,255,255,.06);
 }
+/* ================= USER DROPDOWN PREMIUM ICON STYLE ================= */
 
+.premium-menu{
+    background:rgba(10,15,25,.98) !important;
+    border:1px solid rgba(255,255,255,.10) !important;
+    border-radius:14px;
+    padding:10px;
+    backdrop-filter:blur(18px);
+    box-shadow:0 25px 60px rgba(0,0,0,.65);
+}
+
+/* item layout with icons */
+.premium-menu .dropdown-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:10px;
+    color:rgba(229,231,235,.92) !important;
+    font-weight:500;
+    transition:.2s ease;
+}
+
+/* icon styling (this is what makes it look “app-like”) */
+.premium-menu .dropdown-item i{
+    font-size:1.1rem;
+    opacity:.9;
+    width:20px;
+    text-align:center;
+}
+
+/* hover premium effect */
+.premium-menu .dropdown-item:hover{
+    background:rgba(59,130,246,.15) !important;
+    transform:translateX(3px);
+    color:#fff !important;
+}
+
+/* logout special */
+.premium-menu .text-danger i{
+    color:#f87171 !important;
+}
+
+.premium-menu .text-danger:hover{
+    background:rgba(239,68,68,.12) !important;
+}
 </style>
 
 </head>
@@ -301,17 +346,35 @@ footer{
 
                     </button>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end premium-menu">
 
-                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'products' %}">Inventory</a></li>
-                        <li><a class="dropdown-item" href="{% url 'add_product' %}">Add Product</a></li>
+    <li>
+        <a class="dropdown-item" href="{% url 'profile' %}">
+            <i class="bi bi-person me-2"></i> Profile
+        </a>
+    </li>
 
-                        <li><hr class="dropdown-divider"></li>
+    <li>
+        <a class="dropdown-item" href="{% url 'products' %}">
+            <i class="bi bi-box me-2"></i> Inventory
+        </a>
+    </li>
 
-                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+    <li>
+        <a class="dropdown-item" href="{% url 'add_product' %}">
+            <i class="bi bi-plus-circle me-2"></i> Add Product
+        </a>
+    </li>
 
-                    </ul>
+    <li><hr class="dropdown-divider"></li>
+
+    <li>
+        <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+            <i class="bi bi-box-arrow-right me-2"></i> Logout
+        </a>
+    </li>
+
+</ul>
 
                 </div>
 
