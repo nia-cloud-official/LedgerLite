@@ -68,8 +68,12 @@ def login_view(request):
 
         user = authenticate(request, username=username, password=password)
 
+        print("POST DATA:", request.POST)
+        print("USER:", user)
+        
         if user:
             login(request, user)
+            print("AUTH STATUS:", request.user.is_authenticated)
             return redirect("dashboard")
         else:
             error = "Invalid username or password"
