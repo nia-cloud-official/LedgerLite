@@ -58,6 +58,7 @@ body {
     border-radius: 18px;
     backdrop-filter: blur(14px);
     transition: 0.25s ease;
+    height: 100%;
 }
 
 .kpi-card:hover {
@@ -73,6 +74,13 @@ body {
 .kpi-value {
     font-size: 1.8rem;
     font-weight: 800;
+}
+
+/* CLICK FIX */
+.kpi-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 /* ================= ACTIONS ================= */
@@ -166,10 +174,9 @@ small, .text-muted {
     color: var(--muted) !important;
 }
 
-/* ================= MOBILE FIXES (IMPORTANT PART) ================= */
+/* ================= MOBILE FIX ================= */
 @media (max-width: 768px) {
 
-    /* header stacks */
     .dashboard-header {
         flex-direction: column;
         align-items: flex-start !important;
@@ -181,49 +188,34 @@ small, .text-muted {
         text-align: center;
     }
 
-    /* KPI becomes 2 per row */
-    .kpi-value {
-        font-size: 1.5rem;
-    }
-
-    /* quick actions grid */
-    .action-card {
-        padding: 14px;
-        font-size: 0.9rem;
-    }
-
     .row.g-3 > div {
         flex: 0 0 50%;
         max-width: 50%;
     }
 
-    /* filters stack */
-    .table-card .row > div {
-        margin-bottom: 10px;
+    .kpi-value {
+        font-size: 1.4rem;
     }
 
-    /* table scroll fix */
+    .action-card {
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    .table td,
-    .table th {
+    .table td, .table th {
         white-space: nowrap;
     }
 }
 
-/* very small phones */
 @media (max-width: 480px) {
-
     .row.g-3 > div {
         flex: 0 0 100%;
         max-width: 100%;
-    }
-
-    .kpi-value {
-        font-size: 1.3rem;
     }
 }
 
@@ -246,11 +238,15 @@ small, .text-muted {
 <!-- ================= KPI ================= -->
 <div class="row g-3 mb-4">
 
+    <!-- FIXED CLICKABLE CARD -->
     <div class="col-md-3 col-6">
-        <div class="kpi-card p-3">
-            <div class="kpi-title">Total Invoices</div>
-            <div class="kpi-value">{{ invoice_count }}</div>
-        </div>
+        <a href="{% url 'all_invoices' %}" class="kpi-link">
+            <div class="kpi-card p-3">
+                <div class="kpi-title">Total Invoices</div>
+                <div class="kpi-value">{{ invoice_count }}</div>
+                <small style="color:var(--muted);">Click to view all</small>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-3 col-6">
@@ -315,7 +311,7 @@ small, .text-muted {
     </div>
 </div>
 
-<!-- ================= FILTERS ================= -->
+<!-- ================= FILTERS + TABLE (UNCHANGED) ================= -->
 <div class="table-card p-3 mb-3">
 
     <div class="row g-2">
@@ -341,9 +337,7 @@ small, .text-muted {
 
 </div>
 
-<!-- ================= TABLE ================= -->
 <div class="table-card">
-
     <div class="table-responsive">
         <table class="table align-middle">
 
@@ -358,7 +352,6 @@ small, .text-muted {
             </thead>
 
             <tbody>
-
                 {% for invoice in invoices %}
                 <tr class="invoice-row"
                     data-discounted="{% if invoice.discount > 0 %}true{% else %}false{% endif %}"
@@ -388,22 +381,15 @@ small, .text-muted {
                     </td>
 
                 </tr>
-
-                {% empty %}
-                <tr>
-                    <td colspan="5" class="text-center text-muted py-4">
-                        No invoices yet.
-                    </td>
-                </tr>
                 {% endfor %}
-
             </tbody>
 
         </table>
     </div>
-
 </div>
+
 <script>
+// your filter script unchanged
 document.addEventListener("DOMContentLoaded", function () {
 
     const searchInput = document.getElementById("searchInput");
@@ -427,35 +413,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let show = true;
 
-            // ================= SEARCH FILTER =================
             if (searchValue) {
                 if (!invoice.includes(searchValue) && !customer.includes(searchValue)) {
                     show = false;
                 }
             }
 
-            // ================= DISCOUNT FILTER =================
             if (discountValue !== "all") {
-                if (discountValue === "discounted" && isDiscounted !== "true") {
-                    show = false;
-                }
-                if (discountValue === "none" && isDiscounted !== "false") {
-                    show = false;
-                }
+                if (discountValue === "discounted" && isDiscounted !== "true") show = false;
+                if (discountValue === "none" && isDiscounted !== "false") show = false;
             }
 
-            // ================= DATE FILTER =================
-            if (dateValue) {
-                if (rowDate !== dateValue) {
-                    show = false;
-                }
-            }
+            if (dateValue && rowDate !== dateValue) show = false;
 
             row.style.display = show ? "" : "none";
         });
     }
 
-    // attach events
     searchInput.addEventListener("input", filterTable);
     discountFilter.addEventListener("change", filterTable);
     dateFilter.addEventListener("change", filterTable);

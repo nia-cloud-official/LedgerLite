@@ -747,3 +747,11 @@ def notifications_clear(request):
 def mark_all_notifications_read(request):
     Notification.objects.filter(user=request.user, read=False).update(read=True)
     return JsonResponse({"success": True})
+
+
+# ALL INVOICES PAGE (FIXED)
+# -------------------------
+@login_required
+def all_invoices(request):
+    invoices = Invoice.objects.all().order_by("-date_created")
+    return render(request, "all_invoices.html", {"invoices": invoices})

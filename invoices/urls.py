@@ -8,6 +8,7 @@ urlpatterns = [
 
     # DASHBOARD
     path('dashboard/', views.dashboard, name='dashboard'),
+    path("invoices/", views.all_invoices, name="all_invoices"),
 
     # INVOICE CRUD
     path('create/', views.create_invoice, name='create_invoice'),

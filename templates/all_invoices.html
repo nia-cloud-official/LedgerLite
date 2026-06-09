@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+:root {
+    --bg: #0b1220;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --primary: #3b82f6;
+}
+
+/* ================= PAGE WRAPPER ================= */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+/* TITLES */
+.page-title {
+    font-weight: 800;
+    margin: 0;
+}
+
+.sub-text {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* ================= BACK BUTTON ================= */
+.btn-back {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-back:hover {
+    background: rgba(255,255,255,0.07);
+    transform: translateY(-2px);
+}
+
+/* ================= TABLE CARD ================= */
+.table-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 14px;
+    backdrop-filter: blur(12px);
+}
+
+/* ================= TABLE FIX (CORE ISSUE SOLVED) ================= */
+.table {
+    margin: 0;
+    color: var(--text) !important;
+    background: transparent !important;
+    --bs-table-bg: transparent !important;
+    --bs-table-accent-bg: transparent !important;
+}
+
+/* HEADER */
+.table thead {
+    background: rgba(255,255,255,0.04) !important;
+}
+
+.table thead th {
+    color: #cbd5e1 !important;
+    border-bottom: 1px solid var(--border) !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* ROWS */
+.table tbody tr {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* HOVER */
+.table tbody tr:hover {
+    background: rgba(59,130,246,0.06) !important;
+}
+
+/* CELLS */
+.table td {
+    border: none !important;
+    padding: 14px 12px;
+    color: var(--text) !important;
+}
+
+/* ================= FILTERS ================= */
+.form-control,
+.form-select {
+    background: rgba(15,23,42,0.6) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    border-radius: 10px;
+}
+
+.form-select option {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: rgba(15,23,42,0.8) !important;
+    color: #fff !important;
+}
+
+/* ================= VIEW BUTTON ================= */
+.btn-view {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-view:hover {
+    opacity: 0.9;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-back {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table td, .table th {
+        white-space: nowrap;
+    }
+}
+</style>
+
+<!-- ================= HEADER ================= -->
+<div class="page-header">
+
+    <div>
+        <h2 class="page-title">All Invoices</h2>
+        <div class="sub-text">Search, filter and manage every invoice</div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+        <a href="{% url 'dashboard' %}" class="btn-back">
+            ← Back to Dashboard
+        </a>
+
+        <a href="{% url 'create_invoice' %}" class="btn btn-primary btn-sm">
+            + New Invoice
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ================= FILTERS ================= -->
+<div class="table-card mb-3">
+
+    <div class="row g-2">
+
+        <div class="col-md-6 col-12">
+            <input type="text" id="search" class="form-control"
+                   placeholder="Search invoice number or customer...">
+        </div>
+
+        <div class="col-md-3 col-6">
+            <select id="filterDiscount" class="form-select">
+                <option value="all">All</option>
+                <option value="discounted">Discounted</option>
+                <option value="none">No Discount</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 col-6">
+            <input type="date" id="filterDate" class="form-control">
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= TABLE ================= -->
+<div class="table-card">
+
+    <div class="table-responsive">
+
+        <table class="table align-middle">
+
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="invoiceTable">
+
+                {% for invoice in invoices %}
+                <tr
+                    data-name="{{ invoice.invoice_number|lower }} {{ invoice.customer_name|lower }}"
+                    data-date="{{ invoice.date_created|date:'Y-m-d' }}"
+                    data-discount="{% if invoice.discount > 0 %}yes{% else %}no{% endif %}">
+
+                    <td><strong>{{ invoice.invoice_number }}</strong></td>
+                    <td>{{ invoice.customer_name }}</td>
+                    <td>{{ invoice.date_created|date:"d M Y" }}</td>
+
+                    <td>
+                        <strong>${{ invoice.total|floatformat:2 }}</strong>
+                    </td>
+
+                    <td>
+                        <a href="{% url 'invoice_detail' invoice.id %}" class="btn-view">
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        No invoices found.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+<!-- ================= FILTER SCRIPT ================= -->
+<script>
+const search = document.getElementById("search");
+const filterDiscount = document.getElementById("filterDiscount");
+const filterDate = document.getElementById("filterDate");
+const rows = document.querySelectorAll("#invoiceTable tr");
+
+function filterTable() {
+
+    const s = search.value.toLowerCase();
+    const d = filterDiscount.value;
+    const date = filterDate.value;
+
+    rows.forEach(row => {
+
+        const name = row.dataset.name;
+        const rowDate = row.dataset.date;
+        const discount = row.dataset.discount;
+
+        let show = true;
+
+        if (s && !name.includes(s)) show = false;
+
+        if (d === "discounted" && discount !== "yes") show = false;
+        if (d === "none" && discount !== "no") show = false;
+
+        if (date && rowDate !== date) show = false;
+
+        row.style.display = show ? "" : "none";
+    });
+}
+
+search.addEventListener("input", filterTable);
+filterDiscount.addEventListener("change", filterTable);
+filterDate.addEventListener("change", filterTable);
+</script>
+
+{% endblock %}
