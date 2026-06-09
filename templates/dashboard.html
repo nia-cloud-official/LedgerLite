@@ -4,7 +4,7 @@
 
 <style>
 
-/* ================= DESIGN SYSTEM ================= */
+/* ================= DESIGN SYSTEM (UNCHANGED) ================= */
 :root {
     --bg: #0b1220;
     --card: rgba(255,255,255,0.03);
@@ -44,11 +44,11 @@ body {
     color: white;
     box-shadow: 0 10px 25px rgba(59,130,246,0.25);
     transition: 0.25s ease;
-    white-space: nowrap;
 }
 
 .btn-primary-action:hover {
     transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(59,130,246,0.35);
 }
 
 /* ================= KPI ================= */
@@ -58,11 +58,11 @@ body {
     border-radius: 18px;
     backdrop-filter: blur(14px);
     transition: 0.25s ease;
-    height: 100%;
 }
 
 .kpi-card:hover {
     transform: translateY(-4px);
+    background: var(--card-hover);
 }
 
 .kpi-title {
@@ -85,12 +85,11 @@ body {
     color: var(--text);
     text-decoration: none;
     transition: 0.25s ease;
-    height: 100%;
 }
 
 .action-card:hover {
-    background: var(--card-hover);
     transform: translateY(-4px);
+    background: var(--card-hover);
 }
 
 .action-card i {
@@ -108,7 +107,6 @@ body {
     overflow: hidden;
 }
 
-/* TABLE FIX */
 .table {
     margin: 0;
     color: var(--text);
@@ -116,15 +114,30 @@ body {
     --bs-table-bg: transparent !important;
 }
 
+.table thead {
+    background: rgba(255,255,255,0.04) !important;
+}
+
 .table thead th {
     border-bottom: 1px solid var(--border) !important;
     color: #cbd5e1;
+    font-weight: 600;
     font-size: 0.85rem;
+}
+
+.table tbody tr {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.table tbody tr:hover {
+    background: rgba(59,130,246,0.06) !important;
 }
 
 .table td {
     border: none !important;
     padding: 14px 16px;
+    color: var(--text);
 }
 
 /* ================= FILTERS ================= */
@@ -136,62 +149,81 @@ body {
     border-radius: 12px;
 }
 
+.form-select option {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
 .form-control:focus,
 .form-select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: rgba(15, 23, 42, 0.8) !important;
+    color: white !important;
 }
 
-/* ================= MOBILE FIXES ================= */
+small, .text-muted {
+    color: var(--muted) !important;
+}
+
+/* ================= MOBILE FIXES (IMPORTANT PART) ================= */
 @media (max-width: 768px) {
 
-    /* header stack */
+    /* header stacks */
     .dashboard-header {
         flex-direction: column;
         align-items: flex-start !important;
         gap: 12px;
     }
 
-    /* KPI grid */
-    .kpi-card {
-        margin-bottom: 12px;
+    .dashboard-header a {
+        width: 100%;
+        text-align: center;
     }
 
-    /* actions stack */
+    /* KPI becomes 2 per row */
+    .kpi-value {
+        font-size: 1.5rem;
+    }
+
+    /* quick actions grid */
     .action-card {
-        margin-bottom: 12px;
+        padding: 14px;
+        font-size: 0.9rem;
     }
 
-    /* filters spacing */
+    .row.g-3 > div {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    /* filters stack */
     .table-card .row > div {
         margin-bottom: 10px;
     }
 
-    /* table scroll */
+    /* table scroll fix */
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    table {
-        min-width: 600px;
-    }
-
-    /* button full width on mobile */
-    .btn-primary-action {
-        width: 100%;
-        text-align: center;
+    .table td,
+    .table th {
+        white-space: nowrap;
     }
 }
 
+/* very small phones */
 @media (max-width: 480px) {
 
-    .kpi-value {
-        font-size: 1.4rem;
+    .row.g-3 > div {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 
-    h2 {
-        font-size: 1.4rem;
+    .kpi-value {
+        font-size: 1.3rem;
     }
 }
 
@@ -214,31 +246,31 @@ body {
 <!-- ================= KPI ================= -->
 <div class="row g-3 mb-4">
 
-    <div class="col-12 col-md-3">
+    <div class="col-md-3 col-6">
         <div class="kpi-card p-3">
             <div class="kpi-title">Total Invoices</div>
             <div class="kpi-value">{{ invoice_count }}</div>
         </div>
     </div>
 
-    <div class="col-12 col-md-3">
+    <div class="col-md-3 col-6">
         <div class="kpi-card p-3">
             <div class="kpi-title">Revenue</div>
             <div class="kpi-value text-success">${{ total_revenue }}</div>
         </div>
     </div>
 
-    <div class="col-12 col-md-3">
+    <div class="col-md-3 col-6">
         <div class="kpi-card p-3">
             <div class="kpi-title">Discounts</div>
             <div class="kpi-value text-danger">${{ total_discount }}</div>
         </div>
     </div>
 
-    <div class="col-12 col-md-3">
-        <div class="kpi-card p-3">
+    <div class="col-md-3 col-6">
+        <div class="kpi-card p-3 d-flex flex-column justify-content-center">
             <div class="kpi-title">Quick Action</div>
-            <a href="{% url 'create_invoice' %}" class="btn btn-sm btn-primary-action mt-2 w-100">
+            <a href="{% url 'create_invoice' %}" class="btn btn-sm btn-primary-action mt-2">
                 <i class="bi bi-plus-circle"></i> New Invoice
             </a>
         </div>
@@ -252,28 +284,28 @@ body {
 
     <div class="row g-3">
 
-        <div class="col-6 col-md-3">
+        <div class="col-md-3 col-6">
             <a href="{% url 'create_invoice' %}" class="action-card d-block">
                 <i class="bi bi-receipt"></i>
                 New Invoice
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-md-3 col-6">
             <a href="{% url 'add_product' %}" class="action-card d-block">
                 <i class="bi bi-plus-square"></i>
                 Add Product
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-md-3 col-6">
             <a href="{% url 'products' %}" class="action-card d-block">
                 <i class="bi bi-box"></i>
                 Inventory
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-md-3 col-6">
             <a href="{% url 'analytics' %}" class="action-card d-block">
                 <i class="bi bi-graph-up"></i>
                 Analytics
@@ -288,21 +320,21 @@ body {
 
     <div class="row g-2">
 
-        <div class="col-12 col-md-5">
-            <input type="text" class="form-control"
+        <div class="col-md-5 col-12">
+            <input type="text" id="searchInput" class="form-control"
                    placeholder="Search invoice or customer...">
         </div>
 
-        <div class="col-6 col-md-3">
-            <select class="form-select">
-                <option>All</option>
-                <option>Discounted</option>
-                <option>No Discount</option>
+        <div class="col-md-3 col-6">
+            <select id="discountFilter" class="form-select">
+                <option value="all">All</option>
+                <option value="discounted">Discounted</option>
+                <option value="none">No Discount</option>
             </select>
         </div>
 
-        <div class="col-6 col-md-4">
-            <input type="date" class="form-control">
+        <div class="col-md-4 col-6">
+            <input type="date" id="dateFilter" class="form-control">
         </div>
 
     </div>
@@ -311,6 +343,7 @@ body {
 
 <!-- ================= TABLE ================= -->
 <div class="table-card">
+
     <div class="table-responsive">
         <table class="table align-middle">
 
@@ -325,19 +358,37 @@ body {
             </thead>
 
             <tbody>
+
                 {% for invoice in invoices %}
-                <tr>
+                <tr class="invoice-row"
+                    data-discounted="{% if invoice.discount > 0 %}true{% else %}false{% endif %}"
+                    data-date="{{ invoice.date_created|date:'Y-m-d' }}">
+
                     <td><strong>{{ invoice.invoice_number }}</strong></td>
                     <td>{{ invoice.customer_name }}</td>
                     <td>{{ invoice.date_created|date:"d M Y" }}</td>
-                    <td class="text-success">${{ invoice.total|floatformat:2 }}</td>
+
+                    <td>
+                        <strong class="text-success">
+                            ${{ invoice.total|floatformat:2 }}
+                        </strong>
+
+                        {% if invoice.discount > 0 %}
+                        <div class="small text-danger">
+                            Discount: ${{ invoice.discount }}
+                        </div>
+                        {% endif %}
+                    </td>
+
                     <td>
                         <a href="{% url 'invoice_detail' invoice.id %}"
                            class="btn btn-sm btn-primary-action">
                             View
                         </a>
                     </td>
+
                 </tr>
+
                 {% empty %}
                 <tr>
                     <td colspan="5" class="text-center text-muted py-4">
@@ -345,10 +396,12 @@ body {
                     </td>
                 </tr>
                 {% endfor %}
+
             </tbody>
 
         </table>
     </div>
+
 </div>
 
 {% endblock %}
