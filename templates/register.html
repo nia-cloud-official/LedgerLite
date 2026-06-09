@@ -14,34 +14,48 @@
 body{
     min-height:100vh;
     margin:0;
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+
     background:
-        radial-gradient(circle at 20% 20%, rgba(34,197,94,0.15), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(59,130,246,0.12), transparent 40%),
+        radial-gradient(circle at 20% 20%, rgba(34,197,94,.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(59,130,246,.12), transparent 40%),
         linear-gradient(135deg,#0b1220,#0f172a);
+
     display:flex;
     justify-content:center;
     align-items:center;
     padding:24px;
-    color:#e5e7eb;
+
+    color:#f8fafc;
 }
 
 /* ===== CARD ===== */
+
 .main-card{
     max-width:1100px;
     width:100%;
+
     border:none;
     border-radius:24px;
     overflow:hidden;
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.50);
 }
 
 /* ===== LEFT PANEL ===== */
+
 .left-panel{
-    background:
-        linear-gradient(135deg,#16a34a,#14532d);
+    background:linear-gradient(
+        135deg,
+        #16a34a,
+        #14532d
+    );
+
     color:white;
     padding:60px;
     position:relative;
@@ -51,101 +65,186 @@ body{
     content:"";
     position:absolute;
     inset:0;
-    background: radial-gradient(circle at top left, rgba(255,255,255,0.15), transparent 60%);
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(255,255,255,.15),
+            transparent 60%
+        );
+
     pointer-events:none;
 }
 
 .brand{
     font-size:2.2rem;
     font-weight:800;
-    letter-spacing:-0.5px;
 }
 
 .tagline{
-    opacity:0.9;
     margin-top:10px;
-    font-size:1rem;
+    color:rgba(255,255,255,.92);
 }
 
 .feature{
     margin-bottom:14px;
-    font-size:0.95rem;
-    opacity:0.95;
+    color:white;
 }
 
 /* ===== RIGHT PANEL ===== */
+
 .right-panel{
     padding:60px;
-    background: rgba(15,23,42,0.55);
+    background:rgba(15,23,42,.78);
+    color:#f8fafc;
 }
 
-/* HEADINGS */
+/* ===== HEADINGS ===== */
+
 h2{
     font-weight:700;
-    letter-spacing:-0.5px;
+    color:white;
 }
 
 .text-muted{
-    color:#9ca3af !important;
+    color:#cbd5e1 !important;
 }
 
-/* ===== FORM ===== */
+/* ===== INPUTS ===== */
+
 .form-control{
-    height:52px;
+    height:54px;
+
     border-radius:12px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    color:#fff;
-    padding-left:14px;
-    transition: all .25s ease;
+
+    background:#1e293b !important;
+
+    border:1px solid rgba(255,255,255,.12) !important;
+
+    color:#ffffff !important;
+
+    padding-left:16px;
 }
+
+/* placeholder fix */
+
+.form-control::placeholder{
+    color:#cbd5e1 !important;
+    opacity:1 !important;
+}
+
+/* focus */
 
 .form-control:focus{
-    border-color:#22c55e;
-    box-shadow:0 0 0 3px rgba(34,197,94,0.15);
-    background: rgba(255,255,255,0.08);
-    color:#fff;
+    background:#243244 !important;
+
+    color:#ffffff !important;
+
+    border-color:#22c55e !important;
+
+    box-shadow:
+        0 0 0 3px rgba(34,197,94,.20) !important;
+}
+
+/* Chrome autofill fix */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus{
+    -webkit-text-fill-color:#ffffff !important;
+
+    -webkit-box-shadow:
+        0 0 0px 1000px #1e293b inset !important;
+
+    transition:
+        background-color 5000s ease-in-out 0s;
 }
 
 /* ===== BUTTON ===== */
+
 .btn-register{
-    height:52px;
-    border-radius:12px;
-    font-weight:700;
-    background: linear-gradient(135deg,#22c55e,#16a34a);
+    height:54px;
+
     border:none;
-    transition: all .25s ease;
-    box-shadow: 0 10px 25px rgba(34,197,94,0.25);
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #22c55e,
+            #16a34a
+        );
+
+    color:white;
+
+    box-shadow:
+        0 10px 25px rgba(34,197,94,.25);
+
+    transition:.25s;
 }
 
 .btn-register:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 15px 35px rgba(34,197,94,0.35);
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 15px 35px rgba(34,197,94,.35);
 }
 
-/* LINKS */
+/* ===== LINKS ===== */
+
 a{
-    color:#22c55e;
+    color:#4ade80;
     text-decoration:none;
 }
 
 a:hover{
+    color:#86efac;
     text-decoration:underline;
 }
 
-/* ALERT */
+/* ===== ALERT ===== */
+
 .alert{
     border-radius:12px;
 }
 
-/* MOBILE */
+/* ===== TEXT VISIBILITY ===== */
+
+small,
+span,
+p{
+    color:#e2e8f0;
+}
+
+.form-text{
+    color:#cbd5e1 !important;
+}
+
+.text-center{
+    color:#e2e8f0;
+}
+
+/* ===== MOBILE ===== */
+
 @media(max-width:768px){
+
+    body{
+        padding:16px;
+    }
+
     .left-panel{
         display:none;
     }
 
     .right-panel{
-        padding:40px;
+        padding:32px 24px;
+    }
+
+    h2{
+        font-size:1.8rem;
     }
 }
 
@@ -208,9 +307,11 @@ a:hover{
                 class="form-control mb-3"
                 placeholder="Username" required>
 
-            <input type="email" name="email"
-                class="form-control mb-3"
-                placeholder="Email (optional)">
+            <input
+    type="email"
+    name="email"
+    class="form-control mb-3"
+    placeholder="Email (optional)">
 
             <input type="password" name="password"
                 class="form-control mb-3"
@@ -222,9 +323,14 @@ a:hover{
         </form>
 
         <div class="text-center mt-4">
-            Already have an account?
-            <a href="{% url 'login' %}">Login</a>
-        </div>
+    <span style="color:#e2e8f0;">
+        Already have an account?
+    </span>
+    <a href="{% url 'login' %}"
+       style="color:#22c55e;font-weight:600;">
+        Login
+    </a>
+</div>
 
     </div>
 </div>

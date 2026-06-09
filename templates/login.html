@@ -159,6 +159,43 @@ a:hover{
         padding:40px;
     }
 }
+/* ================= AUTH PAGE TEXT VISIBILITY FIX ================= */
+
+.text-muted{
+    color:#cbd5e1 !important;
+}
+
+small{
+    color:#e2e8f0 !important;
+}
+
+.text-center{
+    color:#e2e8f0;
+}
+
+.text-center a{
+    color:#60a5fa !important;
+    font-weight:600;
+}
+
+.text-center a:hover{
+    color:#93c5fd !important;
+}
+
+/* Form helper text */
+.form-text{
+    color:#cbd5e1 !important;
+}
+
+/* Any paragraph text */
+p{
+    color:#e2e8f0;
+}
+
+/* Better contrast for auth pages */
+.right-panel{
+    color:#f8fafc;
+}
 
 </style>
 </head>
@@ -235,11 +272,14 @@ a:hover{
         </div>
 
         <div class="text-center mt-4">
-            <small>
-                Don't have an account?
-                <a href="{% url 'register' %}">Create one</a>
-            </small>
-        </div>
+    <span style="color:#e2e8f0;">
+        Don't have an account?
+    </span>
+    <a href="{% url 'register' %}"
+       style="color:#60a5fa;font-weight:600;">
+        Create one
+    </a>
+</div>
 
     </div>
 </div>

@@ -160,30 +160,116 @@ body{
 
 .form-control,
 .form-select{
-    background:rgba(255,255,255,.04) !important;
-    border:1px solid var(--border) !important;
-    color:var(--text) !important;
-    border-radius:12px;
+background:#1e293b !important;
+border:1px solid rgba(255,255,255,.15) !important;
+color:#f8fafc !important;
+border-radius:12px;
+
+```
+min-height:48px;
+transition:.2s ease;
+```
+
+}
+
+.form-control::placeholder{
+color:#94a3b8 !important;
+opacity:1;
 }
 
 .form-control:focus,
 .form-select:focus{
-    background:rgba(255,255,255,.06) !important;
-    border-color:var(--primary) !important;
+background:#243247 !important;
+border-color:var(--primary) !important;
+color:#ffffff !important;
 
-    box-shadow:
-        0 0 0 3px rgba(59,130,246,.15) !important;
+```
+box-shadow:
+    0 0 0 3px rgba(59,130,246,.18) !important;
+```
 
-    color:#fff !important;
 }
 
-.form-control::placeholder{
-    color:rgba(229,231,235,.45);
+.form-select option{
+background:#1e293b;
+color:#ffffff;
 }
 
-.form-select{
-    color-scheme:dark;
+.form-control:disabled,
+.form-select:disabled{
+background:#111827 !important;
+color:#9ca3af !important;
 }
+
+/* Labels */
+
+.form-label{
+color:#e2e8f0 !important;
+font-weight:500;
+}
+
+/* Textareas */
+
+textarea.form-control{
+min-height:120px;
+}
+
+/* Bootstrap Cards */
+
+.card{
+background:#111827;
+border:1px solid rgba(255,255,255,.08);
+}
+
+/* Tables */
+
+.table{
+color:#e5e7eb;
+}
+
+.table thead th{
+color:#f8fafc;
+border-color:rgba(255,255,255,.08);
+}
+
+.table td,
+.table th{
+border-color:rgba(255,255,255,.06);
+}
+
+/* Alerts */
+
+.alert{
+border:none;
+border-radius:12px;
+}
+
+/* Modals */
+
+.modal-content{
+background:#111827;
+color:#f8fafc;
+border:1px solid rgba(255,255,255,.08);
+}
+
+/* Bootstrap muted text fix */
+
+.text-muted{
+color:#94a3b8 !important;
+}
+
+/* Chrome Autofill Fix */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill{
+-webkit-text-fill-color:#ffffff !important;
+-webkit-box-shadow:0 0 0 1000px #1e293b inset !important;
+transition:background-color 9999s ease-in-out 0s;
+}
+
 
 /* ================= CONTENT ================= */
 
@@ -260,7 +346,69 @@ footer{
     .dropdown-menu{
         width:220px;
     }
+}/* ================= TEXT VISIBILITY FIX ================= */
+
+/* Input text */
+.form-control,
+.form-select,
+textarea{
+color:#f8fafc !important;
 }
+
+/* Placeholder text */
+.form-control::placeholder,
+textarea::placeholder{
+color:#cbd5e1 !important;
+opacity:1 !important;
+}
+
+/* Selects */
+.form-select{
+color:#f8fafc !important;
+}
+
+/* Labels */
+label,
+.form-label{
+color:#f8fafc !important;
+}
+
+/* Small helper text */
+small,
+.form-text{
+color:#cbd5e1 !important;
+}
+
+/* Paragraphs */
+p{
+color:#e2e8f0;
+}
+
+/* Bootstrap muted text */
+.text-muted{
+color:#cbd5e1 !important;
+}
+
+/* Table text */
+.table{
+color:#f8fafc;
+}
+
+/* Input focus */
+.form-control:focus,
+.form-select:focus,
+textarea:focus{
+color:#ffffff !important;
+}
+
+/* Chrome autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus{
+-webkit-text-fill-color:#ffffff !important;
+-webkit-box-shadow:0 0 0 1000px #1e293b inset !important;
+}
+
 
 </style>
 
