@@ -93,52 +93,29 @@ def logout_view(request):
     return redirect("home")
 
 
-# ======================
-# DASHBOARD
-# ======================
-@login_required
-def dashboard(request):
-
-    run_stock_check(request.user)
-
-    invoices = Invoice.objects.filter(owner=request.user).order_by("-id")
-
-    notifications = Notification.objects.filter(
-        user=request.user
-    ).order_by("-id")[:10]
-
-    unread_count = Notification.objects.filter(
-        user=request.user,
-        read=False
-    ).count()
-
-    total_revenue = Decimal("0.00")
-    total_discount = Decimal("0.00")
-
-    for inv in invoices:
-        try:
-            total_revenue += Decimal(str(inv.total or "0"))
-            total_discount += Decimal(str(inv.discount or "0"))
-        except:
-            continue
-
-    return render(request, "dashboard.html", {
-        "invoices": invoices[:5],
-        "invoice_count": invoices.count(),
-        "total_revenue": total_revenue,
-        "total_discount": total_discount,
-        "notifications": notifications,
-        "unread_count": unread_count
-    })
-
 
 # ======================
 # PRODUCTS
 # ======================
 @login_required
 def products(request):
-    products = Product.objects.filter(owner=request.user, is_deleted=False).order_by("name")
-    return render(request, "products.html", {"products": products})
+    products = Product.objects.filter(
+        owner=request.user,
+        is_deleted=False
+    ).order_by("name")
+
+    low_stock_products = products.filter(stock__lte=5)
+
+    print("LOW STOCK PRODUCTS:")
+    for p in low_stock_products:
+        print(p.name, p.stock)
+
+    low_stock_count = low_stock_products.count()
+
+    return render(request, "products.html", {
+        "products": products,
+        "low_stock_count": low_stock_count,
+    })
 
 
 # ======================
@@ -612,31 +589,35 @@ def generate_stock_notifications(user):
 
 
 # ======================
-# STOCK CHECK ENGINE
+# STOCK CHECK ENGINE (FIXED)
 # ======================
 def run_stock_check(user):
     products = Product.objects.filter(owner=user, is_deleted=False)
 
     for p in products:
+
         stock_notifications = Notification.objects.filter(
             user=user,
             type="stock",
-            message__icontains=p.name
+            product_id=p.id
         )
 
         if p.stock <= 5:
-            notification = stock_notifications.first()
 
-            if notification:
-                notification.message = f"{p.name} is running low ({p.stock} left)"
-                notification.read = False
-                notification.save()
+            message = f"{p.name} is running low ({p.stock} left)"
+
+            if stock_notifications.exists():
+                stock_notifications.update(
+                    message=message,
+                    read=False
+                )
             else:
                 Notification.objects.create(
                     user=user,
                     title="Low Stock Alert",
-                    message=f"{p.name} is running low ({p.stock} left)",
-                    type="stock"
+                    message=message,
+                    type="stock",
+                    product_id=p.id
                 )
         else:
             stock_notifications.delete()
@@ -747,3 +728,46 @@ def mark_all_notifications_read(request):
 def all_invoices(request):
     invoices = Invoice.objects.all().order_by("-date_created")
     return render(request, "all_invoices.html", {"invoices": invoices})
+
+
+@login_required
+def dashboard(request):
+
+    run_stock_check(request.user)
+
+    invoices = Invoice.objects.filter(owner=request.user).order_by("-id")
+
+    notifications = Notification.objects.filter(
+        user=request.user
+    ).order_by("-id")[:10]
+
+    unread_count = Notification.objects.filter(
+        user=request.user,
+        read=False
+    ).count()
+
+    total_revenue = Decimal("0.00")
+    total_discount = Decimal("0.00")
+
+    for inv in invoices:
+        try:
+            total_revenue += Decimal(str(inv.total or "0"))
+            total_discount += Decimal(str(inv.discount or "0"))
+        except:
+            continue
+
+    # ✅ ADD THIS (CRITICAL FIX)
+    products = Product.objects.filter(owner=request.user, is_deleted=False)
+    low_stock_count = products.filter(stock__lte=5).count()
+
+    return render(request, "dashboard.html", {
+        "invoices": invoices[:5],
+        "invoice_count": invoices.count(),
+        "total_revenue": total_revenue,
+        "total_discount": total_discount,
+        "notifications": notifications,
+        "unread_count": unread_count,
+
+        # ✅ FIXED VALUE
+        "low_stock_count": low_stock_count,
+    })

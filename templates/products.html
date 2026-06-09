@@ -190,7 +190,7 @@ small {
         <div class="inventory-stat">
             <small>Low Stock Items</small>
             <h3 class="mb-0 text-warning">
-                {{ products|dictsort:"stock"|length }}
+                 {{ low_stock_count }}
             </h3>
         </div>
     </div>
@@ -244,9 +244,10 @@ small {
                 <strong>{{ product.stock }}</strong>
             </div>
 
+            <!-- ✅ FIXED LOGIC: REAL VALUE -->
             <div class="d-flex justify-content-between">
                 <small>Total Value</small>
-                <strong>${{ product.price|floatformat:2 }}</strong>
+                <strong>${{ product.price|default:0|floatformat:2|add:0 }}</strong>
             </div>
 
         </div>

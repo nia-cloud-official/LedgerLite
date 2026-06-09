@@ -8,6 +8,8 @@ from django.contrib import messages
 from reportlab.pdfgen import canvas
 
 from invoices.models import Invoice, InvoiceItem, Product
+import phonenumbers
+from phonenumbers import NumberParseException
 
 
 # ----------------------
@@ -147,24 +149,72 @@ def create_invoice(request):
 
     if request.method == "POST":
 
+        # ======================
+        # PHONE VALIDATION (FIXED)
+        # ======================
+        customer_phone = request.POST.get("customer_phone", "").strip()
+
+        if customer_phone:
+            try:
+                parsed = phonenumbers.parse(customer_phone, "ZW")
+
+                if not phonenumbers.is_valid_number(parsed):
+                    messages.error(request, "Please enter a valid phone number.")
+                    return redirect("create_invoice")
+
+                customer_phone = phonenumbers.format_number(
+                    parsed,
+                    phonenumbers.PhoneNumberFormat.E164
+                )
+
+            except Exception:
+                messages.error(request, "Please enter a valid phone number.")
+                return redirect("create_invoice")
+
+        else:
+            customer_phone = ""
+
+        # ======================
+        # DISCOUNT SAFE PARSING
+        # ======================
+        try:
+            discount = Decimal(request.POST.get("discount", "0") or "0")
+        except Exception:
+            discount = Decimal("0.00")
+
+        # ======================
+        # CREATE INVOICE
+        # ======================
         invoice = Invoice.objects.create(
             owner=request.user,
             invoice_number="TEMP",
-            customer_name=request.POST.get("customer_name"),
-            customer_phone=request.POST.get("customer_phone"),
-            discount=request.POST.get("discount") or 0
+            customer_name=request.POST.get("customer_name", "").strip(),
+            customer_phone=customer_phone,
+            discount=discount
         )
 
         product_ids = request.POST.getlist("product_id[]")
         quantities = request.POST.getlist("quantity[]")
         prices = request.POST.getlist("price[]")
 
+        created = 0
+
         for pid, qty, price in zip(product_ids, quantities, prices):
 
-            if pid:
-                product = get_object_or_404(Product, id=pid, owner=request.user)
+            if not pid:
+                continue
+
+            try:
+                product = get_object_or_404(
+                    Product,
+                    id=pid,
+                    owner=request.user
+                )
 
                 qty = int(qty)
+
+                if qty <= 0:
+                    continue
 
                 if product.stock < qty:
                     messages.error(request, f"Not enough stock for {product.name}")
@@ -174,12 +224,28 @@ def create_invoice(request):
                     invoice=invoice,
                     description=product.name,
                     quantity=qty,
-                    price=float(price)
+                    price=Decimal(str(price))
                 )
 
                 product.stock -= qty
                 product.save()
 
+                created += 1
+
+            except Exception:
+                continue
+
+        # ======================
+        # EMPTY INVOICE CHECK
+        # ======================
+        if created == 0:
+            invoice.delete()
+            messages.error(request, "Invoice cannot be empty.")
+            return redirect("create_invoice")
+
+        # ======================
+        # FINAL TOTAL
+        # ======================
         invoice.update_total()
 
         invoice.invoice_number = f"INV-{invoice.id:05d}"
