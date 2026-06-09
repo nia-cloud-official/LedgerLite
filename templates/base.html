@@ -227,6 +227,9 @@ footer{
 .premium-menu .text-danger:hover{
     background:rgba(239,68,68,.12) !important;
 }
+.navbar-toggler {
+    border: 1px solid rgba(255,255,255,.2);
+}
 </style>
 
 </head>
@@ -240,7 +243,15 @@ footer{
         <a class="navbar-brand" href="{% url 'dashboard' %}">
             LedgerLite
         </a>
+<button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
 
+    <span class="navbar-toggler-icon"></span>
+</button>
         <div class="collapse navbar-collapse" id="mainNavbar">
 
             <div class="ms-auto d-flex align-items-center gap-3 flex-wrap">
