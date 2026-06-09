@@ -17,27 +17,31 @@ body{
     font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
 
     background:
-        radial-gradient(circle at 20% 20%, rgba(37,99,235,.18), transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(34,197,94,.12), transparent 40%),
+        radial-gradient(circle at 20% 20%, rgba(37,99,235,0.18), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(34,197,94,0.12), transparent 40%),
         linear-gradient(135deg,#0b1220,#0f172a);
 
     display:flex;
     align-items:center;
     justify-content:center;
     padding:24px;
+
     color:#e5e7eb;
 }
 
-/* ===== CARD ===== */
+/* ===== MAIN CARD ===== */
 .main-card{
     width:100%;
-    max-width:1100px;
+    max-width:1050px;
+
     border:none;
     border-radius:24px;
     overflow:hidden;
-    background:rgba(255,255,255,.04);
-    backdrop-filter:blur(20px);
-    box-shadow:0 25px 80px rgba(0,0,0,.45);
+
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(18px);
+
+    box-shadow:0 25px 80px rgba(0,0,0,0.45);
 }
 
 /* ===== LEFT PANEL ===== */
@@ -52,40 +56,30 @@ body{
     content:"";
     position:absolute;
     inset:0;
-    background:
-        radial-gradient(circle at top left,
-        rgba(255,255,255,.18),
-        transparent 60%);
+    background:radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 60%);
     pointer-events:none;
 }
 
-.logo-text{
+.logo{
     font-size:2.2rem;
     font-weight:800;
 }
 
 .tagline{
     margin-top:12px;
-    opacity:.9;
-    font-size:1rem;
-}
-
-.feature{
-    margin-bottom:12px;
-    font-size:.95rem;
+    opacity:0.9;
 }
 
 /* ===== RIGHT PANEL ===== */
 .right-panel{
     padding:60px;
-    background:rgba(15,23,42,.78);
+    background:rgba(15,23,42,0.72);
     color:#f8fafc;
 }
 
-/* ===== LOGO ===== */
-.login-logo{
-    height:70px;
-    width:auto;
+/* ===== HEADINGS ===== */
+h2{
+    font-weight:700;
 }
 
 /* ===== TEXT ===== */
@@ -93,40 +87,44 @@ body{
     color:#cbd5e1 !important;
 }
 
-.form-label{
-    color:#cbd5e1;
-    font-size:.9rem;
-    margin-bottom:8px;
+p, small, .text-center{
+    color:#e2e8f0 !important;
 }
 
-/* ===== INPUTS ===== */
+/* ===== INPUT FIX (IMPORTANT PART) ===== */
+
 .form-control{
-    height:54px;
+    height:52px;
+
     border-radius:12px;
+
     background:#1e293b !important;
-    border:1px solid rgba(255,255,255,.12) !important;
-    color:#fff !important;
+
+    border:1px solid rgba(255,255,255,0.12) !important;
+
+    color:#ffffff !important;
+
     padding-left:14px;
 }
 
+/* placeholder FIX */
 .form-control::placeholder{
-    color:#94a3b8 !important;
+    color:#cbd5e1 !important;
+    opacity:1 !important;
 }
 
+/* focus */
 .form-control:focus{
     background:#243244 !important;
+
     border-color:#3b82f6 !important;
-    color:#fff !important;
-    box-shadow:0 0 0 4px rgba(59,130,246,.20) !important;
+
+    color:#ffffff !important;
+
+    box-shadow:0 0 0 3px rgba(59,130,246,0.20) !important;
 }
 
-.input-group .btn{
-    border-color:rgba(255,255,255,.12);
-    background:#1e293b;
-    color:#cbd5e1;
-}
-
-/* ===== AUTOFILL FIX ===== */
+/* autofill FIX (Chrome) */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus{
@@ -135,44 +133,31 @@ input:-webkit-autofill:focus{
     transition:background-color 5000s ease-in-out 0s;
 }
 
+/* ===== LABELS ===== */
+.form-label{
+    font-size:0.9rem;
+    color:#cbd5e1;
+}
+
 /* ===== BUTTON ===== */
 .btn-login{
-    height:54px;
-    border-radius:14px;
+    height:52px;
+    border-radius:12px;
+
     font-weight:700;
-    letter-spacing:.3px;
+
+    background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+
     border:none;
-    color:#fff;
 
-    background:
-        linear-gradient(
-            135deg,
-            #3b82f6,
-            #2563eb
-        );
+    box-shadow:0 10px 25px rgba(59,130,246,0.25);
 
-    transition:.25s;
-
-    box-shadow:
-        0 10px 30px rgba(59,130,246,.25);
+    transition:0.25s;
 }
 
 .btn-login:hover{
     transform:translateY(-2px);
-
-    box-shadow:
-        0 18px 40px rgba(59,130,246,.35);
-}
-
-/* ===== PRIVACY ===== */
-.privacy-box{
-    margin-top:20px;
-    padding:14px;
-    border-radius:12px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.06);
-    color:#cbd5e1;
-    font-size:.85rem;
+    box-shadow:0 15px 35px rgba(59,130,246,0.35);
 }
 
 /* ===== LINKS ===== */
@@ -183,25 +168,33 @@ a{
 
 a:hover{
     color:#93c5fd;
+    text-decoration:underline;
 }
 
-.form-check-label{
+/* ===== PRIVACY BOX ===== */
+.privacy-box{
+    margin-top:18px;
+    padding:14px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.06);
+
     color:#cbd5e1;
+
+    font-size:0.85rem;
 }
 
 /* ===== MOBILE ===== */
 @media(max-width:768px){
-
-    body{
-        padding:15px;
-    }
-
     .left-panel{
         display:none;
     }
 
     .right-panel{
-        padding:35px;
+        padding:40px;
     }
 }
 
@@ -214,178 +207,76 @@ a:hover{
 
 <div class="row g-0">
 
-    <!-- LEFT PANEL -->
-    <div class="col-md-6">
-        <div class="left-panel h-100">
+<!-- LEFT -->
+<div class="col-md-6">
+    <div class="left-panel h-100">
 
-            <div class="logo-text">LedgerLite</div>
+        <div class="logo">LedgerLite</div>
 
-            <div class="tagline">
-                Modern invoicing and inventory control for growing businesses.
-            </div>
-
-            <hr style="opacity:.2;">
-
-            <div class="feature">✔ Real-time stock visibility</div>
-            <div class="feature">✔ Fast invoice generation</div>
-            <div class="feature">✔ Customer & sales tracking</div>
-            <div class="feature">✔ Analytics dashboard</div>
-            <div class="feature">✔ Mobile ready</div>
-
+        <div class="tagline">
+            Modern invoicing and inventory control for growing businesses.
         </div>
+
+        <hr style="opacity:0.2;">
+
+        <div>✔ Real-time stock visibility</div>
+        <div>✔ Fast invoice generation</div>
+        <div>✔ Customer & sales tracking</div>
+        <div>✔ Analytics dashboard</div>
+        <div>✔ Mobile ready</div>
+
     </div>
+</div>
 
-    <!-- RIGHT PANEL -->
-    <div class="col-md-6">
+<!-- RIGHT -->
+<div class="col-md-6">
+    <div class="right-panel">
 
-        <div class="right-panel">
+        <h2>Welcome back</h2>
 
-            <div class="text-center mb-4">
-                <img src="/static/logo-nobg.png"
-                     alt="LedgerLite"
-                     class="login-logo">
+        <p class="text-muted mb-4">
+            Sign in to continue managing your business.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username"
+                    class="form-control"
+                    placeholder="Enter username"
+                    required>
             </div>
 
-            <h2 class="fw-bold">Welcome Back</h2>
-
-            <p class="text-muted mb-4">
-                Sign in to continue managing your business.
-            </p>
-
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-
-            <form method="POST">
-
-                {% csrf_token %}
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Username
-                    </label>
-
-                    <input
-                        type="text"
-                        name="username"
-                        class="form-control"
-                        placeholder="Enter username"
-                        autocomplete="username"
-                        required>
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Password
-                    </label>
-
-                    <div class="input-group">
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form-control"
-                            placeholder="Enter password"
-                            autocomplete="current-password"
-                            required>
-
-                        <button
-                            type="button"
-                            class="btn"
-                            onclick="togglePassword()">
-                            👁
-                        </button>
-
-                    </div>
-
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center mb-4">
-
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="remember">
-
-                        <label
-                            class="form-check-label"
-                            for="remember">
-                            Remember me
-                        </label>
-                    </div>
-
-                    <a href="#">
-                        Forgot Password?
-                    </a>
-
-                </div>
-
-                <button
-                    type="submit"
-                    id="loginBtn"
-                    class="btn btn-login w-100">
-
-                    Login
-
-                </button>
-
-            </form>
-
-            <div class="privacy-box">
-                🔒 Your data is encrypted and securely stored.
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password"
+                    class="form-control"
+                    placeholder="Enter password"
+                    required>
             </div>
 
-            <div class="text-center mt-4">
-                Don't have an account?
-                <a href="{% url 'register' %}">
-                    Create one
-                </a>
-            </div>
+            <button class="btn btn-login w-100">
+                Login
+            </button>
+        </form>
 
+        <div class="privacy-box">
+            🔒 Your data is encrypted and securely stored.
+        </div>
+
+        <div class="text-center mt-4">
+            <span>Don't have an account?</span>
+            <a href="{% url 'register' %}">Create one</a>
         </div>
 
     </div>
-
 </div>
 
 </div>
 
-<script>
-
-function togglePassword(){
-
-    const field =
-        document.getElementById("password");
-
-    field.type =
-        field.type === "password"
-        ? "text"
-        : "password";
-}
-
-document.querySelector("form")
-.addEventListener("submit", function(){
-
-    const btn =
-        document.getElementById("loginBtn");
-
-    btn.disabled = true;
-
-    btn.innerHTML =
-        "Signing In...";
-});
-
-</script>
+</div>
 
 </body>
 </html>
-

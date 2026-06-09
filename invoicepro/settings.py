@@ -3,7 +3,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY (dev only — change on Render later)
+# ================= SECURITY (DEV ONLY) =================
 SECRET_KEY = 'django-insecure-change-me'
 DEBUG = True
 
@@ -13,11 +13,15 @@ ALLOWED_HOSTS = [
     '.onrender.com'
 ]
 
-SESSION_COOKIE_AGE = 1209600
+
+# ================= SESSION SETTINGS =================
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
-# APPLICATIONS
+
+
+# ================= APPLICATIONS =================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,11 +35,11 @@ INSTALLED_APPS = [
 ]
 
 
-# MIDDLEWARE
+# ================= MIDDLEWARE =================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # ✅ WHITE NOISE (FIX FOR STATIC FILES IN PRODUCTION)
+    # WhiteNoise (safe for production static handling)
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -47,15 +51,16 @@ MIDDLEWARE = [
 ]
 
 
-# URL CONFIG
+# ================= URL CONFIG =================
 ROOT_URLCONF = 'invoicepro.urls'
 
 
-# TEMPLATES
+# ================= TEMPLATES =================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
 
+        # global templates folder
         'DIRS': [BASE_DIR / 'templates'],
 
         'APP_DIRS': True,
@@ -72,7 +77,7 @@ TEMPLATES = [
 ]
 
 
-# DATABASE
+# ================= DATABASE =================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -81,7 +86,7 @@ DATABASES = {
 }
 
 
-# PASSWORD VALIDATION
+# ================= PASSWORD VALIDATION =================
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -90,22 +95,28 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# LANGUAGE / TIME
+# ================= LANGUAGE / TIME =================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 
-# ================= STATIC FILES (FIXED) =================
+# ================= STATIC FILES (FIXED PROPERLY) =================
 STATIC_URL = '/static/'
+
+# REQUIRED for local dev (THIS WAS YOUR MAIN ISSUE)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoise optimized static handling
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use SIMPLE storage for dev stability (avoids broken loading issues)
+STATICFILES_STORAGE = 'whitenoise.storage.WhiteNoiseStaticFilesStorage'
 
 
-# ================= MEDIA =================
+# ================= MEDIA FILES =================
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
@@ -116,5 +127,5 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 
-# ================= DEFAULT AUTO FIELD =================
+# ================= DEFAULT PRIMARY KEY =================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
