@@ -13,7 +13,10 @@ ALLOWED_HOSTS = [
     '.onrender.com'
 ]
 
-
+SESSION_COOKIE_AGE = 1209600
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 # APPLICATIONS
 INSTALLED_APPS = [
     'django.contrib.admin',
