@@ -69,21 +69,49 @@ h2 {
     opacity: 0.9;
 }
 
-/* ================= FORM ================= */
+/* ================= FORM FIX (SELECT + INPUTS) ================= */
 .form-control,
 .form-select {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border);
-    color: var(--text);
+    background: rgba(15, 23, 42, 0.9) !important; /* darker solid base */
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    color: #e5e7eb !important;
     border-radius: 10px;
 }
 
+/* 🔥 FORCE SELECT TEXT VISIBILITY */
+.form-select {
+    color: #e5e7eb !important;
+    background-color: #0f172a !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* 🔥 OPTION FIX (MOST IMPORTANT PART) */
+.form-select option {
+    background-color: #0b1220 !important;
+    color: #ffffff !important;
+}
+
+/* hover highlight inside dropdown */
+.form-select option:hover,
+.form-select option:checked {
+    background-color: #1d4ed8 !important;
+    color: #ffffff !important;
+}
+
+/* focus state */
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--primary);
-    box-shadow: none;
-    background: rgba(255,255,255,0.03);
-    color: var(--text);
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.2) !important;
+    background: #0f172a !important;
+    color: #ffffff !important;
+}
+
+/* placeholder safety */
+.form-control::placeholder {
+    color: rgba(229,231,235,0.55) !important;
 }
 
 /* labels must be neutral */
