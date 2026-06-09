@@ -403,5 +403,63 @@ small, .text-muted {
     </div>
 
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("searchInput");
+    const discountFilter = document.getElementById("discountFilter");
+    const dateFilter = document.getElementById("dateFilter");
+
+    const rows = document.querySelectorAll(".invoice-row");
+
+    function filterTable() {
+
+        const searchValue = searchInput.value.toLowerCase().trim();
+        const discountValue = discountFilter.value;
+        const dateValue = dateFilter.value;
+
+        rows.forEach(row => {
+
+            const invoice = row.children[0].innerText.toLowerCase();
+            const customer = row.children[1].innerText.toLowerCase();
+            const rowDate = row.getAttribute("data-date");
+            const isDiscounted = row.getAttribute("data-discounted");
+
+            let show = true;
+
+            // ================= SEARCH FILTER =================
+            if (searchValue) {
+                if (!invoice.includes(searchValue) && !customer.includes(searchValue)) {
+                    show = false;
+                }
+            }
+
+            // ================= DISCOUNT FILTER =================
+            if (discountValue !== "all") {
+                if (discountValue === "discounted" && isDiscounted !== "true") {
+                    show = false;
+                }
+                if (discountValue === "none" && isDiscounted !== "false") {
+                    show = false;
+                }
+            }
+
+            // ================= DATE FILTER =================
+            if (dateValue) {
+                if (rowDate !== dateValue) {
+                    show = false;
+                }
+            }
+
+            row.style.display = show ? "" : "none";
+        });
+    }
+
+    // attach events
+    searchInput.addEventListener("input", filterTable);
+    discountFilter.addEventListener("change", filterTable);
+    dateFilter.addEventListener("change", filterTable);
+});
+</script>
 
 {% endblock %}
