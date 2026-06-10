@@ -179,7 +179,69 @@ body {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
 }
+/* ================= INVOICE TEXT VISIBILITY FIX ================= */
 
+/* force all invoice content to stay light */
+.saas-card,
+.saas-card div,
+.saas-card span,
+.saas-card p,
+.saas-card td,
+.saas-card th,
+.saas-card h1,
+.saas-card h2,
+.saas-card h3,
+.saas-card h4,
+.saas-card h5,
+.saas-card h6{
+    color: #e5e7eb !important;
+}
+
+/* muted labels */
+.saas-card .text-muted{
+    color:#9ca3af !important;
+}
+
+/* invoice number */
+.invoice-title{
+    color:#ffffff !important;
+}
+
+/* table text */
+.table,
+.table tbody,
+.table tbody tr,
+.table td,
+.table th{
+    color:#e5e7eb !important;
+}
+
+/* subtotal rows */
+.summary-row{
+    color:#e5e7eb !important;
+}
+
+/* total */
+.summary-total{
+    color:#22c55e !important;
+    font-size:18px;
+}
+
+/* discount */
+.summary-row[style*="var(--red)"]{
+    color:#ef4444 !important;
+}
+
+/* share input text */
+.share-input{
+    color:#ffffff !important;
+}
+
+/* customer details */
+.row .col-md-6 div:last-child{
+    color:#ffffff !important;
+    font-weight:500;
+}
 </style>
 
 <!-- ================= TOP ACTIONS ================= -->
