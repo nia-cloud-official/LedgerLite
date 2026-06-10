@@ -1,4 +1,7 @@
+{% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -22,41 +25,31 @@ body{
         linear-gradient(135deg,#0b1220,#0f172a);
 
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     padding:24px;
 
-    color:#f8fafc;
+    color:#e5e7eb;
 }
 
-/* ===== CARD ===== */
-
+/* ===== MAIN CARD ===== */
 .main-card{
-    max-width:1100px;
     width:100%;
+    max-width:1050px;
 
     border:none;
     border-radius:24px;
     overflow:hidden;
 
-    background:rgba(255,255,255,.05);
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(18px);
 
-    backdrop-filter:blur(20px);
-
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.50);
+    box-shadow:0 25px 80px rgba(0,0,0,0.45);
 }
 
 /* ===== LEFT PANEL ===== */
-
 .left-panel{
-    background:linear-gradient(
-        135deg,
-        #16a34a,
-        #14532d
-    );
-
-    color:white;
+    color:#000;
     padding:60px;
     position:relative;
 }
@@ -65,123 +58,110 @@ body{
     content:"";
     position:absolute;
     inset:0;
-
-    background:
-        radial-gradient(
-            circle at top left,
-            rgba(255,255,255,.15),
-            transparent 60%
-        );
-
+    background:radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 60%);
     pointer-events:none;
 }
 
-.brand{
-    font-size:2.2rem;
-    font-weight:800;
+.logo{
+    height:150px;
+    padding:0;
 }
 
 .tagline{
-    margin-top:10px;
-    color:rgba(255,255,255,.92);
-}
-
-.feature{
-    margin-bottom:14px;
-    color:white;
+    margin-top:12px;
+    opacity:.9;
 }
 
 /* ===== RIGHT PANEL ===== */
-
 .right-panel{
     padding:60px;
-    background:rgba(15,23,42,.78);
+    background:rgba(15,23,42,0.72);
     color:#f8fafc;
 }
 
 /* ===== HEADINGS ===== */
-
 h2{
     font-weight:700;
-    color:white;
 }
 
+/* ===== TEXT ===== */
 .text-muted{
     color:#cbd5e1 !important;
 }
 
+p,
+small,
+.text-center{
+    color:#e2e8f0 !important;
+}
+
+/* ===== ALERT ===== */
+.alert{
+    border-radius:12px;
+}
+
+/* ===== LABELS ===== */
+.form-label{
+    color:#cbd5e1;
+    font-size:.9rem;
+}
+
 /* ===== INPUTS ===== */
-
 .form-control{
-    height:54px;
-
+    height:52px;
     border-radius:12px;
 
     background:#1e293b !important;
 
-    border:1px solid rgba(255,255,255,.12) !important;
+    border:1px solid rgba(255,255,255,0.12) !important;
 
     color:#ffffff !important;
 
-    padding-left:16px;
+    padding-left:14px;
 }
-
-/* placeholder fix */
 
 .form-control::placeholder{
     color:#cbd5e1 !important;
-    opacity:1 !important;
+    opacity:1;
 }
-
-/* focus */
 
 .form-control:focus{
     background:#243244 !important;
 
-    color:#ffffff !important;
-
     border-color:#22c55e !important;
 
-    box-shadow:
-        0 0 0 3px rgba(34,197,94,.20) !important;
+    color:#ffffff !important;
+
+    box-shadow:0 0 0 3px rgba(34,197,94,.20) !important;
 }
 
-/* Chrome autofill fix */
-
+/* Chrome Autofill */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus{
-    -webkit-text-fill-color:#ffffff !important;
-
-    -webkit-box-shadow:
-        0 0 0px 1000px #1e293b inset !important;
-
-    transition:
-        background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color:#fff !important;
+    -webkit-box-shadow:0 0 0px 1000px #1e293b inset !important;
+    transition:background-color 5000s ease-in-out 0s;
 }
 
 /* ===== BUTTON ===== */
-
 .btn-register{
-    height:54px;
-
-    border:none;
-
+    height:52px;
     border-radius:12px;
 
     font-weight:700;
 
-    background:
-        linear-gradient(
-            135deg,
-            #22c55e,
-            #16a34a
-        );
+    background:linear-gradient(
+        135deg,
+        #22c55e,
+        #16a34a
+    );
+
+    border:none;
 
     color:white;
 
-    box-shadow:
-        0 10px 25px rgba(34,197,94,.25);
+    box-shadow:0 10px 25px rgba(34,197,94,.25);
 
     transition:.25s;
 }
@@ -189,12 +169,10 @@ input:-webkit-autofill:focus{
 .btn-register:hover{
     transform:translateY(-2px);
 
-    box-shadow:
-        0 15px 35px rgba(34,197,94,.35);
+    box-shadow:0 15px 35px rgba(34,197,94,.35);
 }
 
 /* ===== LINKS ===== */
-
 a{
     color:#4ade80;
     text-decoration:none;
@@ -205,134 +183,172 @@ a:hover{
     text-decoration:underline;
 }
 
-/* ===== ALERT ===== */
+/* ===== PRIVACY BOX ===== */
+.privacy-box{
+    margin-top:18px;
+    padding:16px 20px;
 
-.alert{
-    border-radius:12px;
-}
+    border-radius:16px;
 
-/* ===== TEXT VISIBILITY ===== */
+    background:linear-gradient(
+        135deg,
+        rgba(34,197,94,0.12),
+        rgba(16,185,129,0.08)
+    );
 
-small,
-span,
-p{
+    border:1px solid rgba(34,197,94,0.2);
+
     color:#e2e8f0;
+
+    font-size:.9rem;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    box-shadow:0 4px 12px rgba(34,197,94,0.08);
 }
 
-.form-text{
-    color:#cbd5e1 !important;
-}
-
-.text-center{
-    color:#e2e8f0;
+.privacy-box svg{
+    width:20px;
+    height:20px;
+    color:#22c55e;
+    flex-shrink:0;
 }
 
 /* ===== MOBILE ===== */
-
 @media(max-width:768px){
-
-    body{
-        padding:16px;
-    }
 
     .left-panel{
         display:none;
     }
 
     .right-panel{
-        padding:32px 24px;
-    }
-
-    h2{
-        font-size:1.8rem;
+        padding:40px;
     }
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="card main-card shadow-lg">
+<div class="card main-card">
 
 <div class="row g-0">
 
 <!-- LEFT -->
-<div class="col-md-6">
-    <div class="left-panel h-100">
-        <div class="brand">LedgerLite</div>
 
-        <div class="tagline">
-            Premium business intelligence for modern entrepreneurs.
-        </div>
+<div class="col-md-6"
+     style="background:linear-gradient(135deg,#ffffff 0%,#dcfce7 45%,#16a34a 100%);padding:0;">
 
-        <hr class="my-4" style="opacity:0.2;">
+<img src="{% static 'images/logo.png' %}"
+     alt="LedgerLite Logo"
+     class="logo">
 
-        <div class="feature">✔ Real-time stock tracking</div>
-        <div class="feature">✔ Fast invoice generation (under 30s)</div>
-        <div class="feature">✔ Automated sales insights</div>
-        <div class="feature">✔ Receipt & transaction history</div>
-        <div class="feature">✔ Mobile + desktop access</div>
+<div class="left-panel h-20" style="padding-top:0;">
 
-        <hr class="my-4" style="opacity:0.2;">
-
-        <small style="opacity:0.85;">
-            Secure • Fast • Built for Zimbabwean businesses
-        </small>
+    <div class="tagline">
+        Start growing your business with smarter inventory and invoicing.
     </div>
+
+    <hr style="opacity:.2;">
+
+    <div>✔ Real-time stock visibility</div>
+    <div>✔ Fast invoice generation</div>
+    <div>✔ Customer & sales tracking</div>
+    <div>✔ Analytics dashboard</div>
+    <div>✔ Mobile ready</div>
+
+    <hr style="opacity:.2;">
+
+    <small style="color:#14532d;font-weight:600;">
+        Secure • Fast • Built for Zimbabwean Businesses
+    </small>
+
+</div>
+
 </div>
 
 <!-- RIGHT -->
+
 <div class="col-md-6">
     <div class="right-panel">
 
-        <h2>Create your account</h2>
+    <h2>Create Account</h2>
 
-        <p class="text-muted mb-4">
-            Start building a smarter business system today.
-        </p>
+    <p class="text-muted mb-4">
+        Start managing your business with LedgerLite.
+    </p>
 
-        {% if messages %}
+    {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
         {% endfor %}
-        {% endif %}
+    {% endif %}
 
-        <form method="POST">
-            {% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
 
-            <input type="text" name="username"
-                class="form-control mb-3"
-                placeholder="Username" required>
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text"
+                   name="username"
+                   class="form-control"
+                   placeholder="Choose a username"
+                   required>
+        </div>
 
-            <input
-    type="email"
-    name="email"
-    class="form-control mb-3"
-    placeholder="Email (optional)">
+        <div class="mb-3">
+            <label class="form-label">Email (Optional)</label>
+            <input type="email"
+                   name="email"
+                   class="form-control"
+                   placeholder="Enter email">
+        </div>
 
-            <input type="password" name="password"
-                class="form-control mb-3"
-                placeholder="Password" required>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password"
+                   name="password"
+                   class="form-control"
+                   placeholder="Create a password"
+                   required>
+        </div>
 
-            <button class="btn btn-register w-100">
-                Create Account
-            </button>
-        </form>
+        <button class="btn btn-register w-100">
+            Create Account
+        </button>
 
-        <div class="text-center mt-4">
-    <span style="color:#e2e8f0;">
-        Already have an account?
-    </span>
-    <a href="{% url 'login' %}"
-       style="color:#22c55e;font-weight:600;">
-        Login
-    </a>
-</div>
+    </form>
+
+    <div class="privacy-box">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke-width="2"
+             stroke="currentColor">
+
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+        </svg>
+
+        <span>Your data is encrypted and securely stored.</span>
 
     </div>
+
+    <div class="text-center mt-4">
+        <span>Already have an account?</span>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+
+</div>
+
 </div>
 
 </div>
